@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import benchPress from "../images/bench_press.jpeg";
 import pullDown from "../images/pull_down.jpg";
 import legPress from "../images/leg_press.jpeg";
+import Calendar from "./Calendar";
 
 
 const Main = () => {
@@ -23,6 +24,7 @@ const Main = () => {
           <div className="bg-green-300 p-10 hover:cursor-pointer"><img src={legPress} alt="レッグプレス"/></div>
         </Link>
       </section>
+      <Calendar />
     </main>
   );
 };
