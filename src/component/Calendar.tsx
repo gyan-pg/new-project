@@ -2,13 +2,19 @@ import React, {useEffect, useState} from "react";
 import dayjs from "dayjs";
 import { AiFillCaretLeft, AiFillCaretRight } from "react-icons/ai";
 
-const Calendar: React.FC = () => {
+type PROPS = {
+  today: string;
+  setDay: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const Calendar: React.FC<PROPS> = ({today, setDay}) => {
 
   type DATE = {
     day: number,
     date: string,
     month: number,
   }
+  const [currentDay, setCurrentDay] = useState(today);
 
   const [currentDate, setCurrentDate] = useState(dayjs());
   const [calendar, setCalendar] = useState<any>();
@@ -52,8 +58,10 @@ const Calendar: React.FC = () => {
     setCalendar(calendar);
   },[currentDate]);
 
+  // useCallbackを使う？
   const getCalendarDate = (el:DATE) => {
-    console.log(el);
+    setDay(el.date);
+    setCurrentDay(el.date);
   }
 
   const nextMonth = () => {
@@ -78,8 +86,10 @@ const Calendar: React.FC = () => {
             <div key={index} className="flex">{
               elm.map((el:DATE, index) => {
                 return( 
-                  <div className={index === 6 ? "w-10 text-center border-t border-l border-r hover:bg-gray-200" : "w-10 text-center border-t border-l hover:bg-gray-200"} key={el.date}>
-                    <p className={ el.month !== currentDate.month() ? "text-gray-400 hover:cursor-pointer" : "hover:cursor-pointer"} key={el.date} onClick={() => getCalendarDate(el)}>{el.day}</p>
+                  <div className={`w-10 text-center border-t border-l hover:bg-gray-200 ${index === 6 ? "border-r" : ""}`} key={el.date}>
+                    <p className={`hover:cursor-pointer ${el.month !== currentDate.month() ? "text-gray-400 " : ""}
+                       ${el.date === currentDay ? "text-pink-500" : ""}`}
+                       key={el.date} onClick={() => getCalendarDate(el)}>{el.day}</p>
                   </div>
                 )
               })
