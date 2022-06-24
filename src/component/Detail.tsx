@@ -14,7 +14,7 @@ const Detail: React.FC = () => {
   const kind = useLocation().pathname.substring(8);
 
   console.log(kind);
-  console.log(calendarDate);
+  console.log('calendarDate',calendarDate);
 
   return (
 
@@ -25,6 +25,7 @@ const Detail: React.FC = () => {
           <input className="px-2 py-1 border block w-full" placeholder="ウェイト重量(kg)" type="text" inputMode="numeric" value={weight} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {setWeight(e.target.value)}} />
           <input className="px-2 py-1 border block w-full" placeholder="回数" type="text" inputMode="numeric" value={frequency} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {setFrequency(e.target.value)}} />
           <input className="px-2 py-1 border block w-full" placeholder="セット数" type="text" inputMode="numeric" value={sets} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {setSets(e.target.value)}} />
+          <p className="px-2 py-1 border block w-full">実施日：{calendarDate}</p>
         </section>
         <section className="w-2/5 text-center">
           <Calendar today={calendarDate} setDay={setCalendarDate}/>
