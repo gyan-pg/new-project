@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useParams, useLocation } from "react-router-dom";
 import Calendar from "./Calendar";
 import { BsCalendar3 } from "react-icons/bs";
@@ -24,6 +24,7 @@ const Detail: React.FC = () => {
     sets: ""
   });
   const [errFlg, setErrFlg] = useState(false);
+  const [submitFlg, setSubmitFlg] = useState(false);
 
   const params = useParams();
   // アドレスからトレーニングの名前を取得する。
@@ -64,6 +65,15 @@ const Detail: React.FC = () => {
     setFunc(value);
   }
 
+  // submitFlgの監視
+  useEffect(() => {
+    if (weight.length !== 0 && frequency.length !== 0 && sets.length !== 0 && !errFlg) {
+      setSubmitFlg(true);
+    } else {
+      setSubmitFlg(false);
+    }
+  },[weight, frequency, sets]);
+
   return (
 
     <>
@@ -92,7 +102,7 @@ const Detail: React.FC = () => {
           {showCalendarFlg ? <Calendar today={calendarDate} setDay={setCalendarDate}/> : ""}
         </section>
         <div className="text-center">
-          <button className={`border inline-block w-1/5 bg-blue-200 py-1 ${errFlg ? "bg-gray-200" : ""}`}>登録</button>
+          <button className={`border inline-block w-1/5 bg-blue-200 py-1 ${!submitFlg ? "bg-gray-200" : ""}`} disabled={!submitFlg}>登録</button>
         </div>
       </section>
     </>

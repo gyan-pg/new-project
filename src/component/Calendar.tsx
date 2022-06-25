@@ -74,7 +74,7 @@ const Calendar: React.FC<PROPS> = ({today, setDay}) => {
 
   return (
     <>
-    <section className="inline-block">
+    <section className="inline-block mb-4">
       <div className="flex justify-between items-center mb-2 mt-2">
         <AiFillCaretLeft className="hover:cursor-pointer" onClick={() => {prevMonth()}}/>
         <span>{currentDate.format("YYYY年MM月")}</span>
