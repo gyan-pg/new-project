@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams, useLocation } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Calendar from "./Calendar";
 import { BsCalendar3 } from "react-icons/bs";
 import dayjs from "dayjs";
 import { BENCHPRESS, LEGPRESS, PULLDOWN } from "../syumokuList";
+import { useSelector } from "react-redux";
+import { isLogin } from "../features/userSlice";
 
 type ERR = {
   weight: string;
@@ -25,6 +27,7 @@ const Detail: React.FC = () => {
   });
   const [errFlg, setErrFlg] = useState(false);
   const [submitFlg, setSubmitFlg] = useState(false);
+  const user = useSelector(isLogin);
 
   const params = useParams();
   // アドレスからトレーニングの名前を取得する。
