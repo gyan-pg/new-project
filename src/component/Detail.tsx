@@ -50,16 +50,18 @@ const Detail: React.FC = () => {
   const validNum = (num: string, type: keyof ERR) => {
     if (num.length === 0 || num === '0') {
       setErrFlg(true);
-      err[type] = "1以上の数値を入力してください";
+      const errMsg = {...err};
+      errMsg[type] = "1以上の数値を入力してください";
+      setErr(errMsg);
     } else if (!num.match(/^[0-9]+$/)) {
       setErrFlg(true);
-      err[type] = "半角数字で入力してください";
-      setErr(err)
+      const errMsg = {...err};
+      errMsg[type] = "半角数字で入力してください";
+      setErr(errMsg);
     } else {
-      err[type] = "";
-    }
-    if (err.weight === "" && err.frequency === "" && err.sets === "") {
-      setErrFlg(false);
+      const errMsg = {...err};
+      errMsg[type] = "";
+      setErr(errMsg);
     }
   }
 
@@ -67,10 +69,16 @@ const Detail: React.FC = () => {
     validNum(value, type);
     setFunc(value);
   }
+  // errFlgのリセット
+  useEffect(() => {
+    if (err.weight === "" && err.frequency === "" && err.sets === "") {
+      setErrFlg(false);
+    }
+  },[err]);
 
   // submitFlgの監視
   useEffect(() => {
-    if (weight.length !== 0 && frequency.length !== 0 && sets.length !== 0 && !errFlg) {
+    if ((weight.length !== 0 && frequency.length !== 0 && sets.length !== 0)) {
       setSubmitFlg(true);
     } else {
       setSubmitFlg(false);
