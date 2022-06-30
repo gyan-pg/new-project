@@ -5,12 +5,22 @@ import { BsCalendar3 } from "react-icons/bs";
 import dayjs from "dayjs";
 import { BENCHPRESS, LEGPRESS, PULLDOWN } from "../syumokuList";
 import { useSelector } from "react-redux";
-import { isLogin } from "../features/userSlice";
+import { isLogin, selectUser } from "../features/userSlice";
+import { db } from "../firebase";
+import { addDoc, collection, doc, onSnapshot, query, updateDoc, where } from "firebase/firestore";
 
 type ERR = {
   weight: string;
   frequency: string;
   sets: string;
+}
+
+type RECORD = {
+  id: string;
+  weight: string;
+  sets: string;
+  registerDate: string;
+  frequency: string;
 }
 
 const Detail: React.FC = () => {
@@ -27,7 +37,8 @@ const Detail: React.FC = () => {
   });
   const [errFlg, setErrFlg] = useState(false);
   const [submitFlg, setSubmitFlg] = useState(false);
-  const user = useSelector(isLogin);
+  const [trainingData, setTraingData] = useState<RECORD[]>([]);
+  const user = useSelector(selectUser);
 
   const params = useParams();
   // アドレスからトレーニングの名前を取得する。
@@ -85,10 +96,67 @@ const Detail: React.FC = () => {
     }
   },[weight, frequency, sets]);
 
+  // 登録
+  const registerResult = async () => {
+    const colRef = collection(db, "trainingData");
+    const data = {
+      uid: user.uid,
+      registerDate: calendarDate,
+      weight,
+      sets,
+      frequency,
+      trainingName,
+    };
+
+    // 選択した日ですでに登録されているのか確認する。
+    let skipFlg = false;
+    trainingData.map((elm) => {
+      if (elm.registerDate === calendarDate) {
+        skipFlg = true;
+        const conf = window.confirm(`${calendarDate}のデータはすでに登録されています。上書きしますか？`);
+        if (conf) {
+          // updateの処理
+          console.log("update");
+          const ref = doc(db, "trainingData", elm.id);
+          updateDoc(ref, {
+            weight: weight,
+            sets: sets,
+            frequency: frequency,
+          });
+        }
+      }
+    })
+    if (!skipFlg) {
+      console.log('new record');
+      await addDoc(colRef, data);
+    }
+  }
+  // トレーニングデータの監視
+  useEffect(() => {
+    const q = query(collection(db, "trainingData"), where("uid", "==", user.uid), where("trainingName", "==", trainingName));
+    const unSub = onSnapshot(q, (querySnapshot) => {
+      const trainingRecord: RECORD[] = [];
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        trainingRecord.push({
+          id: doc.id,
+          weight: data.weight,
+          sets: data.sets,
+          frequency: data.frequency,
+          registerDate: data.registerDate,
+        });
+      });
+      setTraingData(trainingRecord);
+    });
+  return () => {
+    unSub()
+    };
+  }, []);
+
   return (
 
     <>
-      <Link to="/"><button className="bg-pink-100 px-4 py-2 block">TOP</button></Link>
+      <Link to="/main"><button className="bg-pink-100 px-4 py-2 block">main</button></Link>
       <h2 className="text-center">{training}</h2>
       <section className="container mx-auto">
         <section className="w-1/5 mx-auto">
@@ -113,7 +181,7 @@ const Detail: React.FC = () => {
           {showCalendarFlg ? <Calendar today={calendarDate} setDay={setCalendarDate}/> : ""}
         </section>
         <div className="text-center">
-          <button className={`border inline-block w-1/5 bg-blue-200 py-1 ${!submitFlg ? "bg-gray-200" : ""}`} disabled={!submitFlg}>登録</button>
+          <button className={`border inline-block w-1/5 bg-blue-200 py-1 ${!submitFlg ? "bg-gray-200" : ""}`} disabled={!submitFlg} onClick={() => registerResult()}>登録</button>
         </div>
       </section>
     </>

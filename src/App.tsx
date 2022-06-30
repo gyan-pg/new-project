@@ -5,6 +5,7 @@ import Header from "./component/Header";
 import Main from './component/Main';
 import Detail from './component/Detail';
 import Auth from './component/Auth';
+import Footer from './component/Footer';
 import { useDispatch, useSelector } from 'react-redux';
 import { isLogin, login, logout, selectUser } from './features/userSlice';
 import { auth } from './firebase';
@@ -43,6 +44,7 @@ const App: React.FC = () => {
     <>
       <article className="mx-auto">
         <Header />
+        <main style={{ minHeight: "calc(100vh - 124px)" }}>
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Top/>} />
@@ -53,6 +55,8 @@ const App: React.FC = () => {
             <Route path="*" element={<NotFound/>} />
           </Routes>
         </BrowserRouter>
+        </main>
+        <Footer />
       </article>
     </>
   );

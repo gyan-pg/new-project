@@ -9,9 +9,9 @@ const Header = () => {
   const login = useSelector(isLogin);
   return (
     <>
-      <header className="bg-pink-300 flex py-4 justify-between">
-        <h1 className="text-3xl font-bold ">header</h1>
-        {login ? <button onClick={() => signOut(auth)}><MdLogout/></button> : ""}
+      <header className="bg-yellow-300 flex py-4 justify-between items-center">
+        <h1 className="text-3xl font-bold ml-20">header</h1>
+        {login ? <button className="mr-20" onClick={() => signOut(auth)}><MdLogout/></button> : ""}
       </header>
     </>
   );

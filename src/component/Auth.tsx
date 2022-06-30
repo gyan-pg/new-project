@@ -73,7 +73,6 @@ const Auth = () => {
 
   // validation
   const validRequired = (str: string, type: keyof ERR) => {
-    console.log(str);
     if (!str.length) {
       setErrFlg(true);
       const errMsg = {...err};
@@ -112,32 +111,33 @@ const Auth = () => {
 
 
   return (
-    <section className="mx-auto w-80">
+    <section className="mx-auto w-80 pt-20">
       {AuthCheck ? <Link to="/main">main</Link> : ""}
       <h2 className="text-center">{changeForm ? "LOGIN": "REGISTER"}</h2>
       {changeForm ? 
       <>
         <label htmlFor="email">email</label><span className="text-red-400 text-xs ml-4">{errFlg ? err.email : ""}</span>
-        <input className="block border w-full" id="email" type="email" value={email} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {setValue(setEmail, e.target.value, "email")}} />
+        <input className="px-2 py-1 border block w-full mb-4" id="email" type="email" value={email} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {setValue(setEmail, e.target.value, "email")}} />
         <label htmlFor="password">password</label><span className="text-red-400 text-xs ml-4">{errFlg ? err.password : ""}</span>
-        <input className="block border w-full" id="password" type="password" value={password} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {setValue(setPassword, e.target.value, "password")}} />
-        <button className={`border inline-block w-1/5 bg-blue-200 py-1 ${!submitFlg ? "bg-gray-200" : ""}`} disabled={!submitFlg} onClick={() => signIn()}>Login</button> 
+        <input className="px-2 py-1 border block w-full mb-4" id="password" type="password" value={password} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {setValue(setPassword, e.target.value, "password")}} />
       </>
       :
       <>
         <label htmlFor="username">username</label><span className="text-red-400 text-xs ml-4">{errFlg ? err.username : ""}</span>
-        <input className="block border w-full" id="username" type="text" value={username} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {setValue(setUsername, e.target.value, "username")}} />
+        <input className="px-2 py-1 border block w-full mb-4" id="username" type="text" value={username} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {setValue(setUsername, e.target.value, "username")}} />
         <label htmlFor="email">email</label><span className="text-red-400 text-xs ml-4">{errFlg ? err.email : ""}</span>
-        <input className="block border w-full" id="email" type="email" value={email} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {setValue(setEmail, e.target.value, "email")}} />
+        <input className="px-2 py-1 border block w-full mb-4" id="email" type="email" value={email} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {setValue(setEmail, e.target.value, "email")}} />
         <label htmlFor="password">password</label><span className="text-red-400 text-xs ml-4">{errFlg ? err.password : ""}</span>
-        <input className="block border w-full" id="password" type="password" value={password} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {setValue(setPassword, e.target.value, "password")}} />
+        <input className="px-2 py-1 border block w-full mb-4" id="password" type="password" value={password} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {setValue(setPassword, e.target.value, "password")}} />
         <label htmlFor="password">password confirmation</label><span className="text-red-400 text-xs ml-4">{errFlg ? err.password_confirmation : ""}</span>
-        <input className="block border w-full" id="password_confirmation" type="password" value={passwordConfirmation} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {setValue(setPasswordConfirmation, e.target.value, "password_confirmation")}} />
-        <button className={`border inline-block w-1/5 bg-blue-200 py-1 ${!submitFlg ? "bg-gray-200" : ""}`} disabled={!submitFlg} onClick={() => { signUp() }}>Register</button> 
+        <input className="px-2 py-1 border block w-full mb-4" id="password_confirmation" type="password" value={passwordConfirmation} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {setValue(setPasswordConfirmation, e.target.value, "password_confirmation")}} /> 
       </> }
       
-      
-      <button className="border px-4 py-2 text-sm" onClick={() => {switchForm()}}>{changeForm ? "REGISTER?" : "LOGIN?"}</button>
+      <div className="flex justify-between items-center">
+        <button className={`border inline-block w-2/5 bg-blue-200 py-1 ${!submitFlg ? "bg-gray-200" : ""}`} disabled={!submitFlg} onClick={() => {if(changeForm) {signIn()} else {signUp()} }}>{changeForm ? "Login" : "Register"}</button> 
+        {/* <button className={`border inline-block w-1/5 bg-blue-200 py-1 ${!submitFlg ? "bg-gray-200" : ""}`} disabled={!submitFlg} onClick={() => signUp() }>Register</button> */}
+        <button className="border px-4 py-2 text-sm w-2/5 hover:bg-blue-200 transition duration-300" onClick={() => {switchForm()}}>{changeForm ? "REGISTER?" : "LOGIN?"}</button>
+      </div>
     </section>
   );
 };
