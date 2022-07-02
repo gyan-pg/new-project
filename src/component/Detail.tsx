@@ -1,13 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import Calendar from "./Calendar";
-import { BsCalendar3 } from "react-icons/bs";
-import dayjs from "dayjs";
-import { BENCHPRESS, LEGPRESS, PULLDOWN } from "../syumokuList";
 import { useSelector } from "react-redux";
 import { isLogin, selectUser } from "../features/userSlice";
+import { BsCalendar3 } from "react-icons/bs";
+
+import styles from "../cssModules/flash.module.scss";
+
+import dayjs from "dayjs";
+import Calendar from "./Calendar";
+
 import { db } from "../firebase";
-import { addDoc, collection, doc, onSnapshot, query, updateDoc, where } from "firebase/firestore";
+import { addDoc, collection, doc, onSnapshot, orderBy, query, updateDoc, where } from "firebase/firestore";
+import { BENCHPRESS, LEGPRESS, PULLDOWN } from "../syumokuList";
+import Chart from "./Chart";
 
 type ERR = {
   weight: string;
@@ -43,17 +48,17 @@ const Detail: React.FC = () => {
   const params = useParams();
   // アドレスからトレーニングの名前を取得する。
   const trainingName = params.query;
-  let training = "";
+  let trainingTitle = "";
 
   switch (trainingName) {
     case BENCHPRESS.en:
-      training = BENCHPRESS.ja;
+      trainingTitle = BENCHPRESS.ja;
       break;
     case LEGPRESS.en:
-      training = LEGPRESS.ja;
+      trainingTitle = LEGPRESS.ja;
       break;
     case PULLDOWN.en:
-      training = PULLDOWN.ja;
+      trainingTitle = PULLDOWN.ja;
       break;
   }
 
@@ -123,14 +128,23 @@ const Detail: React.FC = () => {
             sets: sets,
             frequency: frequency,
           });
+          refreshForm();
         }
       }
     })
     if (!skipFlg) {
-      console.log('new record');
       await addDoc(colRef, data);
+      refreshForm();
     }
   }
+
+  // 入力フォームのリフレッシュ
+  const refreshForm = () => {
+    setWeight("");
+    setFrequency("");
+    setSets("");
+  }
+
   // トレーニングデータの監視
   useEffect(() => {
     const q = query(collection(db, "trainingData"), where("uid", "==", user.uid), where("trainingName", "==", trainingName));
@@ -156,8 +170,9 @@ const Detail: React.FC = () => {
   return (
 
     <>
-      <Link to="/main"><button className="bg-pink-100 px-4 py-2 block">main</button></Link>
-      <h2 className="text-center">{training}</h2>
+      <p className={styles.flash}>test</p>
+      <div className="pt-10">
+      <h2 className="text-center">{trainingTitle}</h2>
       <section className="container mx-auto">
         <section className="w-1/5 mx-auto">
 
@@ -184,6 +199,9 @@ const Detail: React.FC = () => {
           <button className={`border inline-block w-1/5 bg-blue-200 py-1 ${!submitFlg ? "bg-gray-200" : ""}`} disabled={!submitFlg} onClick={() => registerResult()}>登録</button>
         </div>
       </section>
+      <Link to="/main"><button className="bg-pink-100 px-4 py-2 block">main</button></Link>
+      </div>
+      <Chart trainingData={trainingData} trainingTitle={trainingTitle}/>
     </>
   );
 };

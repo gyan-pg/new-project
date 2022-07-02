@@ -147,7 +147,7 @@ const Auth = () => {
         {/* <button className={`border inline-block w-1/5 bg-blue-200 py-1 ${!submitFlg ? "bg-gray-200" : ""}`} disabled={!submitFlg} onClick={() => signUp() }>Register</button> */}
         <button className="border px-4 py-2 text-sm w-2/5 hover:bg-blue-200 transition duration-300" onClick={() => {switchForm()}}>{changeForm ? "REGISTER?" : "LOGIN?"}</button>
       </div>
-      {!loadingFlg ? <Loading /> : ""}
+      {loadingFlg ? <Loading /> : ""}
     </section>
   );
 };
