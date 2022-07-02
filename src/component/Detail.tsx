@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { isLogin, selectUser } from "../features/userSlice";
-import { BsCalendar3 } from "react-icons/bs";
 
-import styles from "../cssModules/flash.module.scss";
+import { useSelector, useDispatch } from "react-redux";
+import { selectUser } from "../features/userSlice";
+import { setSuccessMsg, setErrorMsg } from "../features/messageSlice";
+import { BsCalendar3 } from "react-icons/bs";
 
 import dayjs from "dayjs";
 import Calendar from "./Calendar";
 
 import { db } from "../firebase";
-import { addDoc, collection, doc, onSnapshot, orderBy, query, updateDoc, where } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, onSnapshot, orderBy, query, updateDoc, where } from "firebase/firestore";
 import { BENCHPRESS, LEGPRESS, PULLDOWN } from "../syumokuList";
 import Chart from "./Chart";
 
@@ -29,7 +29,7 @@ type RECORD = {
 }
 
 const Detail: React.FC = () => {
-
+  const dispatch = useDispatch();
   const [weight, setWeight] = useState("");
   const [frequency, setFrequency] = useState("");
   const [sets, setSets] = useState("");
@@ -129,12 +129,15 @@ const Detail: React.FC = () => {
             frequency: frequency,
           });
           refreshForm();
+          dispatch(setSuccessMsg("レコードを更新しました。"));
+          return false;
         }
       }
     })
     if (!skipFlg) {
       await addDoc(colRef, data);
       refreshForm();
+      dispatch(setSuccessMsg("レコードを追加しました。"));
     }
   }
 
@@ -143,6 +146,22 @@ const Detail: React.FC = () => {
     setWeight("");
     setFrequency("");
     setSets("");
+  }
+
+  // レコードの削除
+  const deleteRecord = async () => {
+    const target = trainingData.find((elm) => {
+      if(elm.registerDate === calendarDate) {
+        return elm;
+      }
+    })
+    // 削除対象が存在しない
+    if(!target) {
+      alert("レコードが登録されていません。");
+      return;
+    }
+    await deleteDoc(doc(db, "trainingData", target.id));
+    // レコードを削除したことを表示する処理
   }
 
   // トレーニングデータの監視
@@ -170,7 +189,6 @@ const Detail: React.FC = () => {
   return (
 
     <>
-      <p className={styles.flash}>test</p>
       <div className="pt-10">
       <h2 className="text-center">{trainingTitle}</h2>
       <section className="container mx-auto">
@@ -195,8 +213,9 @@ const Detail: React.FC = () => {
         <section className="w-2/5 text-center mx-auto">
           {showCalendarFlg ? <Calendar today={calendarDate} setDay={setCalendarDate}/> : ""}
         </section>
-        <div className="text-center">
-          <button className={`border inline-block w-1/5 bg-blue-200 py-1 ${!submitFlg ? "bg-gray-200" : ""}`} disabled={!submitFlg} onClick={() => registerResult()}>登録</button>
+        <div className="flex justify-between w-1/5 mx-auto">
+          <button className={`block border inline-block w-2/5 bg-blue-200 py-1 ${!submitFlg ? "bg-gray-200" : ""}`} disabled={!submitFlg} onClick={() => registerResult()}>登録</button>
+          <button className="block border  inline-block w-2/5 bg-blue-200 py-1 text-sm" onClick={() => deleteRecord()}>レコード削除</button>
         </div>
       </section>
       <Link to="/main"><button className="bg-pink-100 px-4 py-2 block">main</button></Link>

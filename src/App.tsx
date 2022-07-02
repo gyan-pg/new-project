@@ -11,6 +11,7 @@ import { isLogin, login, logout, selectUser } from './features/userSlice';
 import { auth } from './firebase';
 import Top from './component/Top';
 import NotFound from './component/NotFound';
+import FlashMessage from './component/FlashMessage';
 
 const App: React.FC = () => {
 
@@ -44,6 +45,7 @@ const App: React.FC = () => {
     <>
       <article className="mx-auto">
         <Header />
+        <FlashMessage />
         <main className="relative" style={{ minHeight: "calc(100vh - 124px)" }}>
         <BrowserRouter>
           <Routes>

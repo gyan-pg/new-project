@@ -33,7 +33,7 @@ type ChartData = {
 
 const Chart: React.FC<any> = ({trainingData, trainingTitle}) => {
   console.log('chart render');
-  console.log(trainingTitle);
+  // console.log(trainingTitle);
 
   const [dataAmount, setDataAmount] = useState(0);
   const [displayWidth, setDisplayWidth] = useState(0);
@@ -47,7 +47,7 @@ const Chart: React.FC<any> = ({trainingData, trainingTitle}) => {
     return (a.registerDate < b.registerDate) ? -1 : 1;
   });
 
-  console.log("sorted",data);
+  // console.log("sorted",data);
 
   const labelArr = data.map((elm:ChartData) => {
     return elm.registerDate;
@@ -57,7 +57,7 @@ const Chart: React.FC<any> = ({trainingData, trainingTitle}) => {
     return Number(elm.weight) * Number(elm.sets) * Number(elm.frequency);
   })
 
-  console.log(labelArr)
+  // console.log(labelArr)
   
   const graphData = {
     labels: labelArr,
@@ -83,7 +83,7 @@ const Chart: React.FC<any> = ({trainingData, trainingTitle}) => {
     <>
       {
         data.length ?
-          <div style={{ height: "300px", width: `${displayWidth}px` }}>
+          <div style={{ height: "300px", width: `${displayWidth < 150 ? 150 : displayWidth}px` }}>
             <Line 
               data={graphData}
               options={options}
