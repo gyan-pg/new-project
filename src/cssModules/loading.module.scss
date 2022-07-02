@@ -1,0 +1,32 @@
+.wrapper {
+  position: absolute;
+  background: rgba(230, 230, 230, 0.8);
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+.container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}
+.loadingText {
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+.circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 5px solid #abf;
+  animation: loading 2s linear infinite;
+}
+@keyframes loading {
+  0%{border: 5px solid #abf}
+  25%{border: 5px solid #fab}
+  50%{border: 5px solid #fba}
+  75%{border: 5px solid #afb}
+}

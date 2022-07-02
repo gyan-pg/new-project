@@ -44,14 +44,13 @@ const App: React.FC = () => {
     <>
       <article className="mx-auto">
         <Header />
-        <main style={{ minHeight: "calc(100vh - 124px)" }}>
+        <main className="relative" style={{ minHeight: "calc(100vh - 124px)" }}>
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Top/>} />
             <Route path="/auth" element={AuthCheck ? <Navigate to="/main" /> : <Auth />}/>
             <Route path="/main" element={AuthCheck ? <Main /> : <Navigate to="/auth" />} />
             <Route path="/detail/:query" element={AuthCheck ? <Detail /> : <Navigate to="/auth" />}/>
-
             <Route path="*" element={<NotFound/>} />
           </Routes>
         </BrowserRouter>

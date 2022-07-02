@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { auth } from "../firebase"; 
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { Link } from "react-router-dom";
+import Loading from "./Loading";
 
 const Auth = () => {
 
@@ -31,9 +32,15 @@ const Auth = () => {
     password: "",
     password_confirmation: "",
   })
+  const [loadingFlg, setLoadingFlg] = useState(false);
 
   const signIn = async () => {
-    await signInWithEmailAndPassword(auth, email, password).catch((err) => alert(err.message));
+    setLoadingFlg(true);
+    await signInWithEmailAndPassword(auth, email, password)
+    .catch((err) => {
+      setLoadingFlg(false);
+      alert(err.message)
+    });
   };
 
   const signUp = async () => {
@@ -44,6 +51,7 @@ const Auth = () => {
       setErr(errMsg);
       return ;
     }
+    setLoadingFlg(true);
     await createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       const user = userCredential.user;
@@ -54,6 +62,7 @@ const Auth = () => {
     })
     .catch((err) => {
       alert(err.message);
+      setLoadingFlg(false);
     });
     dispatch(updateUserProfile({
       displayName: username,
@@ -138,6 +147,7 @@ const Auth = () => {
         {/* <button className={`border inline-block w-1/5 bg-blue-200 py-1 ${!submitFlg ? "bg-gray-200" : ""}`} disabled={!submitFlg} onClick={() => signUp() }>Register</button> */}
         <button className="border px-4 py-2 text-sm w-2/5 hover:bg-blue-200 transition duration-300" onClick={() => {switchForm()}}>{changeForm ? "REGISTER?" : "LOGIN?"}</button>
       </div>
+      {!loadingFlg ? <Loading /> : ""}
     </section>
   );
 };
