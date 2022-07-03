@@ -1,0 +1,49 @@
+$bg_comment: rgb(254, 245, 158);
+
+.wrapper {
+  position: absolute;
+  width: 200px;
+  border: 1px solid #999;
+  background: $bg_comment;
+  padding: 20px;
+  border-radius: 10px;
+  right: 0;
+  transform: translateX(100%);
+  animation: popup .5s linear forwards;
+  &::after {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background: red;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%) translateX(calc(-50% - 1px)) rotate(45deg);
+    background: $bg_comment;
+    border-bottom: 1px solid #999;
+    border-left: 1px solid #999;
+  }
+}
+.active {
+  animation: popdown .5s linear forwards;
+}
+.text {
+  font-size: 12px;
+  position: relative;
+  z-index: 10;
+}
+.title {
+  margin-bottom: 5px;
+  border-bottom: 2px solid #eaa;
+  text-align: center;
+}
+
+@keyframes popup {
+  0%{opacity: 0; transform: translateX(90%);}
+  100%{opacity: 1; transform: translateX(100%);}
+}
+@keyframes popdown {
+  0%{opacity: 1; transform: translateX(100%);}
+  100%{opacity: 0; transform: translateX(90%);}
+}

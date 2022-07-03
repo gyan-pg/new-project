@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { AiOutlineQuestionCircle } from "react-icons/ai";
 
 import {
   Chart as ChartJS,
@@ -12,6 +13,7 @@ import {
 } from 'chart.js';
 
 import { Line } from 'react-chartjs-2';
+import Comment from './Comment';
 
 ChartJS.register(
   CategoryScale,
@@ -33,10 +35,23 @@ type ChartData = {
 
 const Chart: React.FC<any> = ({trainingData, trainingTitle}) => {
   console.log('chart render');
-  // console.log(trainingTitle);
 
   const [dataAmount, setDataAmount] = useState(0);
   const [displayWidth, setDisplayWidth] = useState(0);
+  const [commentFlg, setCommentflg] = useState(false);
+  const [animateFlg, setAnimateflg] = useState(false);
+
+  const toggleShow = () => {
+    setAnimateflg(!animateFlg);
+    
+    if (!commentFlg) {
+      setCommentflg(!commentFlg);
+    } else {
+      setTimeout(() => {
+        setCommentflg(!commentFlg);
+      }, 1000);
+    }
+  }
 
   useEffect(() => {
     setDataAmount(trainingData.length);
@@ -81,18 +96,24 @@ const Chart: React.FC<any> = ({trainingData, trainingTitle}) => {
 
   return (
     <>
-      {
-        data.length ?
-          <div style={{ height: "300px", width: `${displayWidth < 150 ? 150 : displayWidth}px` }}>
-            <Line 
-              data={graphData}
-              options={options}
-              id="chart-key"
-            />
-          </div>
-        :
-          "データが登録されていません。"
-      }
+      <section className="flex justify-center">
+        {
+          data.length ?
+            <div className="pb-20 relative" style={{ height: "400px", width: `${displayWidth < 150 ? 150 : displayWidth}px` }}>
+              <div className="flex items-center justify-center">
+                <h2 className="text-center">{trainingTitle}:総負荷グラフ<AiOutlineQuestionCircle className="inline-block hover:cursor-pointer" style={{ position: "relative", top: "-2px" }} onClick={() => toggleShow()}/></h2>
+                {commentFlg ? <Comment animate={animateFlg}/> : ""}
+              </div>
+              <Line 
+                data={graphData}
+                options={options}
+                id="chart-key"
+              />
+            </div>
+          :
+            "データが登録されていません。"
+        }
+      </section>
     </>
   );
 };
