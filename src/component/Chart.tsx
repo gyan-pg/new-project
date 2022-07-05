@@ -36,11 +36,12 @@ type ChartData = {
 const Chart: React.FC<any> = ({trainingData, trainingTitle}) => {
   console.log('chart render');
 
-  const [dataAmount, setDataAmount] = useState(0);
   const [displayWidth, setDisplayWidth] = useState(0);
   const [commentFlg, setCommentflg] = useState(false);
   const [animateFlg, setAnimateflg] = useState(false);
-
+  const [visibleData, setVisibleData] = useState([]);
+  const [visibleLabel, setVisibleLabel] = useState([]);
+  
   const toggleShow = () => {
     setAnimateflg(!animateFlg);
     
@@ -49,37 +50,57 @@ const Chart: React.FC<any> = ({trainingData, trainingTitle}) => {
     } else {
       setTimeout(() => {
         setCommentflg(!commentFlg);
-      }, 1000);
+      }, 600);
     }
   }
 
   useEffect(() => {
-    setDataAmount(trainingData.length);
+    let data = trainingData.sort(function (a:any, b:any) {
+      return (a.registerDate < b.registerDate) ? -1 : 1;
+    });
+    const labelArr = data.map((elm:ChartData) => {
+      return elm.registerDate;
+    });
+    const amount = data.map((elm:ChartData) => {
+      return Number(elm.weight) * Number(elm.sets) * Number(elm.frequency);
+    });
+
+    console.log(amount);
+    const setData = () => {
+      if(trainingData.length > 10) {
+        const tempData = amount.slice(trainingData.length-10);
+        console.log(tempData);
+        const tempLabel = labelArr.slice(trainingData.length-10);
+        const returnData = {data: tempData, label: tempLabel};
+        return returnData;
+      } else {
+        const tempData = amount;
+        const tempLabel = labelArr;
+        const returnData = {data: tempData, label: tempLabel};
+        return returnData;
+      }
+    };
+
+    const tmp:any = setData();
+    console.log("tmp",tmp);
     setDisplayWidth(trainingData.length * 30);
+    setVisibleData(tmp.data);
+    setVisibleLabel(tmp.label);
+
   },[trainingData])
 
-  let data = trainingData.sort(function (a:any, b:any) {
-    return (a.registerDate < b.registerDate) ? -1 : 1;
-  });
+  
 
   // console.log("sorted",data);
-
-  const labelArr = data.map((elm:ChartData) => {
-    return elm.registerDate;
-  })
-
-  const amount = data.map((elm:ChartData) => {
-    return Number(elm.weight) * Number(elm.sets) * Number(elm.frequency);
-  })
 
   // console.log(labelArr)
   
   const graphData = {
-    labels: labelArr,
+    labels: visibleLabel,
     datasets: [
       {
         label: trainingTitle,
-        data: amount,
+        data: visibleData,
         borderColor: "rgb(75, 192, 192)",
       },
     ],
@@ -96,20 +117,24 @@ const Chart: React.FC<any> = ({trainingData, trainingTitle}) => {
 
   return (
     <>
-      <section className="flex justify-center">
+      <section className="">
         {
-          data.length ?
-            <div className="pb-20 relative" style={{ height: "400px", width: `${displayWidth < 150 ? 150 : displayWidth}px` }}>
-              <div className="flex items-center justify-center">
-                <h2 className="text-center">{trainingTitle}:総負荷グラフ<AiOutlineQuestionCircle className="inline-block hover:cursor-pointer" style={{ position: "relative", top: "-2px" }} onClick={() => toggleShow()}/></h2>
-                {commentFlg ? <Comment animate={animateFlg}/> : ""}
+          visibleData.length ?
+            <>
+              <h2 className="text-center">{trainingTitle}:総負荷グラフ<AiOutlineQuestionCircle className="inline-block hover:cursor-pointer" style={{ position: "relative", top: "-2px" }} onClick={() => toggleShow()}/></h2>
+              <div className="flex justify-center">
+                <div className="pb-20 relative" style={{ height: "400px", width: `${displayWidth < 150 ? 150 : displayWidth}px` }}>
+                  <div className="flex items-center justify-center">
+                    {commentFlg ? <Comment animate={animateFlg}/> : ""}
+                  </div>
+                  <Line 
+                    data={graphData}
+                    options={options}
+                    id="chart-key"
+                  />
+                </div>
               </div>
-              <Line 
-                data={graphData}
-                options={options}
-                id="chart-key"
-              />
-            </div>
+            </>
           :
             "データが登録されていません。"
         }
