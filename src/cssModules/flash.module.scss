@@ -4,6 +4,7 @@
   line-height: 40px;
   text-align: center;
   animation: flash linear 4s forwards;
+  position: absolute;
 }
 .success {
   @extend .flash;

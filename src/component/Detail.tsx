@@ -3,14 +3,16 @@ import { Link, useParams } from "react-router-dom";
 
 import { useSelector, useDispatch } from "react-redux";
 import { selectUser } from "../features/userSlice";
-import { setSuccessMsg, setErrorMsg } from "../features/messageSlice";
+import { setSuccessMsg } from "../features/messageSlice";
 import { BsCalendar3 } from "react-icons/bs";
+
+import styles from "../cssModules/navitem.module.scss";
 
 import dayjs from "dayjs";
 import Calendar from "./Calendar";
 
 import { db } from "../firebase";
-import { addDoc, collection, deleteDoc, doc, onSnapshot, orderBy, query, updateDoc, where } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, onSnapshot, query, updateDoc, where } from "firebase/firestore";
 import { BENCHPRESS, LEGPRESS, PULLDOWN } from "../syumokuList";
 import Chart from "./Chart";
 
@@ -187,40 +189,42 @@ const Detail: React.FC = () => {
   }, []);
 
   return (
-
     <>
-      <div className="pt-10">
-      <h2 className="text-center">{trainingTitle}</h2>
-      <section className="container mx-auto">
-        <section className="w-1/5 mx-auto">
-
-          <label className="ml-2 inline-block" htmlFor="weight">重量</label><span className="text-red-400 text-xs ml-4">{errFlg ? err.weight : ""}</span>
-          <input id="weight" className="px-2 py-1 border block w-full mb-4" placeholder="ウェイト重量(kg)" type="text" inputMode="numeric" value={weight} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {setValue(setWeight,"weight",e.target.value)}} />
-          
-          <label className="ml-2 inline-block" htmlFor="frequency">回数</label><span className="text-red-400 text-xs ml-4">{errFlg ? err.frequency : ""}</span>
-          <input id="frequency" className="px-2 py-1 border block w-full mb-4" placeholder="回数" type="text" inputMode="numeric" value={frequency} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {setValue(setFrequency,"frequency",e.target.value)}} />
-          
-          <label className="ml-2 inline-block" htmlFor="sets">セット数</label><span className="text-red-400 text-xs ml-4">{errFlg ? err.sets : ""}</span>
-          <input id="sets" className="px-2 py-1 border block w-full mb-4" placeholder="セット数" type="text" inputMode="numeric" value={sets} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {setValue(setSets,"sets",e.target.value)}} />
-          
-          <label className="ml-2" onClick={() => {setShowCalendarFlg(!showCalendarFlg)}}>実施日</label>
-          <div className="flex border content-between items-center mb-4" onClick={() => {setShowCalendarFlg(!showCalendarFlg)}}>
-            <span className="px-2 py-1 w-full inline-block">{calendarDate}</span>
-            <BsCalendar3 className="inline-block mr-2 hover:text-gray-500 hover:cursor-pointer transition transition-duration-500"/>
-          </div>
-
-        </section>
-        <section className="w-2/5 text-center mx-auto">
-          {showCalendarFlg ? <Calendar today={calendarDate} setDay={setCalendarDate}/> : ""}
-        </section>
-        <div className="flex justify-between w-1/5 mx-auto">
-          <button className={`block border inline-block w-2/5 bg-blue-200 py-1 ${!submitFlg ? "bg-gray-200" : ""}`} disabled={!submitFlg} onClick={() => registerResult()}>登録</button>
-          <button className="block border  inline-block w-2/5 bg-blue-200 py-1 text-sm" onClick={() => deleteRecord()}>レコード削除</button>
+      <div className="pt-20">
+        <div className="text-center mb-4">
+          <h2 className="inline-block text-center font-bold font-lg relative">{trainingTitle}<Link to={"/main"}><button className={styles.nav}>前</button></Link></h2>
         </div>
-      </section>
-      <Link to="/main"><button className="bg-pink-100 px-4 py-2 block">main</button></Link>
+        <div className="flex justify-center">
+          <section className="w-1/4 px-10">
+            <section>
+
+              <label className="ml-2 inline-block" htmlFor="weight">重量</label><span className="text-red-400 text-xs ml-4">{errFlg ? err.weight : ""}</span>
+              <input id="weight" className="px-2 py-1 border block w-full mb-4" placeholder="ウェイト重量(kg)" type="text" inputMode="numeric" value={weight} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {setValue(setWeight,"weight",e.target.value)}} />
+              
+              <label className="ml-2 inline-block" htmlFor="frequency">回数</label><span className="text-red-400 text-xs ml-4">{errFlg ? err.frequency : ""}</span>
+              <input id="frequency" className="px-2 py-1 border block w-full mb-4" placeholder="回数" type="text" inputMode="numeric" value={frequency} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {setValue(setFrequency,"frequency",e.target.value)}} />
+              
+              <label className="ml-2 inline-block" htmlFor="sets">セット数</label><span className="text-red-400 text-xs ml-4">{errFlg ? err.sets : ""}</span>
+              <input id="sets" className="px-2 py-1 border block w-full mb-4" placeholder="セット数" type="text" inputMode="numeric" value={sets} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {setValue(setSets,"sets",e.target.value)}} />
+              
+              <label className="ml-2" onClick={() => {setShowCalendarFlg(!showCalendarFlg)}}>実施日</label>
+              <div className="flex border content-between items-center mb-4" onClick={() => {setShowCalendarFlg(!showCalendarFlg)}}>
+                <span className="px-2 py-1 w-full inline-block">{calendarDate}</span>
+                <BsCalendar3 className="inline-block mr-2 hover:text-gray-500 hover:cursor-pointer transition transition-duration-500"/>
+              </div>
+
+            </section>
+            <section className="text-center">
+              {showCalendarFlg ? <Calendar today={calendarDate} setDay={setCalendarDate}/> : ""}
+            </section>
+            <div className="flex justify-between mx-auto pb-10">
+              <button className={`w-2/5 border inline-block bg-blue-200 py-1 ${!submitFlg ? "bg-gray-200" : ""}`} disabled={!submitFlg} onClick={() => registerResult()}>登録</button>
+              <button className="w-2/5 border inline-block bg-blue-200 py-1 text-sm" onClick={() => deleteRecord()}>レコード削除</button>
+            </div>
+          </section>
+          <Chart trainingData={trainingData} trainingTitle={trainingTitle}/>
+        </div>
       </div>
-      <Chart trainingData={trainingData} trainingTitle={trainingTitle}/>
     </>
   );
 };

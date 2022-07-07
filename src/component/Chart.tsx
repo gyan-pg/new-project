@@ -159,7 +159,7 @@ const Chart: React.FC<any> = ({trainingData, trainingTitle}) => {
             <>
               <h2 className="text-center">{trainingTitle}:総負荷グラフ<AiOutlineQuestionCircle className="inline-block hover:cursor-pointer" style={{ position: "relative", top: "-2px" }} onClick={() => toggleShow()}/></h2>
               <div className="flex justify-center">
-                <div className="pb-10 relative" style={{ height: "400px", width: `${displayWidth < 200 ? 200 : displayWidth}px` }}>
+                <div className="pb-4 relative" style={{ height: "400px", width: `${displayWidth < 200 ? 200 : displayWidth}px` }}>
                   <div className="flex items-center justify-center">
                     {commentFlg ? <Comment animate={animateFlg}/> : ""}
                   </div>
@@ -172,14 +172,14 @@ const Chart: React.FC<any> = ({trainingData, trainingTitle}) => {
               </div>
             </>
           :
-            "データが登録されていません。"
+            ""
         }
          
           <div className="pb-10 flex justify-center">
           {totalPage > 1 ?
             <> 
-              {currentPage === 1 ? "" : <button className="px-3 py-1" onClick={() => prevPage()}>前の期間</button>}
-              {totalPage > currentPage ? <button className="px-3 py-1" onClick={() => nextPage()}>次の期間</button> : ""}
+              {currentPage === 1 ? "" : <button className="px-3 py-1 border hover:bg-yellow-200 mx-4" onClick={() => prevPage()}>前の期間</button>}
+              {totalPage > currentPage ? <button className="px-3 py-1 border hover:bg-yellow-200 mx-4" onClick={() => nextPage()}>次の期間</button> : ""}
             </>
           : ""}
           </div>
