@@ -14,7 +14,6 @@ import {
 
 import { Line } from 'react-chartjs-2';
 import Comment from './Comment';
-import { isPropertyAccessOrQualifiedName } from 'typescript';
 
 ChartJS.register(
   CategoryScale,
