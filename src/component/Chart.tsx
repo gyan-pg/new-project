@@ -49,7 +49,7 @@ const Chart: React.FC<any> = ({trainingData, trainingTitle}) => {
   const [processedData, setProcessedData] = useState([]);
   // 全期間のラベル
   const [processedLabel, setProcessedLabel] = useState([]);
-
+  // レコードの件数
   const [recordNum, setRecordNum] = useState(0);
   const [recordPages, setRecordPages] = useState(0);
   const [totalPage, setTotalPage] = useState(0);
@@ -115,8 +115,8 @@ const Chart: React.FC<any> = ({trainingData, trainingTitle}) => {
       setVisibleData(processedData.slice(0, 10));
       setVisibleLabel(processedLabel.slice(0, 10));
     } else if(newPage > 1 && newPage < totalPage){
-      setVisibleData(processedData.slice(recordNum - ((totalPage - newPage) * 10 - 1), recordNum - ((totalPage - (newPage + 1)))));
-      setVisibleLabel(processedLabel.slice(recordNum - ((totalPage - newPage) * 10 - 1), recordNum - ((totalPage - (newPage + 1)))))
+      setVisibleData(processedData.slice(recordNum - ((totalPage - newPage + 1) * 10), recordNum - ((totalPage - newPage) * 10)));
+      setVisibleLabel(processedLabel.slice(recordNum - ((totalPage - newPage + 1) * 10), recordNum - ((totalPage - newPage) * 10)));
     }
   }
 
@@ -124,11 +124,11 @@ const Chart: React.FC<any> = ({trainingData, trainingTitle}) => {
     const newPage = currentPage + 1;
     setCurrentPage(newPage);
     if (newPage === totalPage) {
-      setVisibleData(processedData.slice(0, 10));
-      setVisibleLabel(processedLabel.slice(0, 10));
+      setVisibleData(processedData.slice(recordNum-10));
+      setVisibleLabel(processedLabel.slice(recordNum-10));
     } else {
-      setVisibleData(processedData.slice((newPage - 1) * 10, newPage * 10 + 1));
-      setVisibleLabel(processedLabel.slice((newPage - 1) * 10, newPage * 10 + 1));
+      setVisibleData(processedData.slice((newPage - 1) * 10, newPage * 10));
+      setVisibleLabel(processedLabel.slice((newPage - 1) * 10, newPage * 10));
     }
   }
   
