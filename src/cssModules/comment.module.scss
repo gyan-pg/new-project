@@ -1,4 +1,4 @@
-$bg_comment: rgb(254, 245, 158);
+$bg_comment: rgb(232, 249, 215);
 
 .wrapper {
   position: absolute;
@@ -7,9 +7,11 @@ $bg_comment: rgb(254, 245, 158);
   background: $bg_comment;
   padding: 20px;
   border-radius: 10px;
-  right: 0;
+  right: -50px;
+  top: -98px;
   transform: translateX(100%);
   animation: popup .5s linear forwards;
+  z-index: 10;
   &::after {
     content: "";
     display: block;
@@ -32,6 +34,7 @@ $bg_comment: rgb(254, 245, 158);
   font-size: 12px;
   position: relative;
   z-index: 10;
+  text-align: left;
 }
 .title {
   margin-bottom: 5px;

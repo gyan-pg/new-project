@@ -15,6 +15,7 @@ import { db } from "../firebase";
 import { addDoc, collection, deleteDoc, doc, onSnapshot, query, updateDoc, where } from "firebase/firestore";
 import { BENCHPRESS, LEGPRESS, PULLDOWN } from "../syumokuList";
 import Chart from "./Chart";
+import ChartState from "./ChartState";
 
 type ERR = {
   weight: string;
@@ -45,6 +46,7 @@ const Detail: React.FC = () => {
   const [errFlg, setErrFlg] = useState(false);
   const [submitFlg, setSubmitFlg] = useState(false);
   const [trainingData, setTraingData] = useState<RECORD[]>([]);
+  const [loadingFlg, setLoadingFlg] = useState(true);
   const user = useSelector(selectUser);
 
   const params = useParams();
@@ -181,6 +183,7 @@ const Detail: React.FC = () => {
           registerDate: data.registerDate,
         });
       });
+      setLoadingFlg(false);
       setTraingData(trainingRecord);
     });
   return () => {
@@ -222,7 +225,9 @@ const Detail: React.FC = () => {
               <button className="w-2/5 border inline-block bg-blue-200 py-1 text-sm" onClick={() => deleteRecord()}>レコード削除</button>
             </div>
           </section>
-          <Chart trainingData={trainingData} trainingTitle={trainingTitle}/>
+          <section className="w-1/4">
+          {loadingFlg ? <ChartState message="loading..." /> : <Chart trainingData={trainingData} trainingTitle={trainingTitle}/>}
+          </section>
         </div>
       </div>
     </>

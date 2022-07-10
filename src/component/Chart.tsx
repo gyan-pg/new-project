@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import { AiOutlineQuestionCircle } from "react-icons/ai";
+import React, { useEffect, useState, memo, useCallback } from 'react';
 
 import {
   Chart as ChartJS,
@@ -13,7 +12,8 @@ import {
 } from 'chart.js';
 
 import { Line } from 'react-chartjs-2';
-import Comment from './Comment';
+import ChartState from './ChartState';
+import TrainingTitle from './TrainingTitle';
 
 ChartJS.register(
   CategoryScale,
@@ -33,7 +33,7 @@ type ChartData = {
   registerDate: string;
 };
 
-const Chart: React.FC<any> = ({trainingData, trainingTitle}) => {
+const Chart: React.FC<any> = memo(({trainingData, trainingTitle}) => {
   console.log('chart render');
 
   // TODO:リファクタリング
@@ -54,7 +54,8 @@ const Chart: React.FC<any> = ({trainingData, trainingTitle}) => {
   const [totalPage, setTotalPage] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
 
-  const toggleShow = () => {
+  const toggleShow = useCallback(() => {
+
     setAnimateflg(!animateFlg);
     
     if (!commentFlg) {
@@ -64,7 +65,7 @@ const Chart: React.FC<any> = ({trainingData, trainingTitle}) => {
         setCommentflg(!commentFlg);
       }, 600);
     }
-  }
+  }, []);
 
   useEffect(() => {
     let data = trainingData.sort(function (a:any, b:any) {
@@ -151,29 +152,27 @@ const Chart: React.FC<any> = ({trainingData, trainingTitle}) => {
     }
   };
 
+  const ShowChart = () => {
+    return (
+          <>
+            <TrainingTitle trainingTitle={trainingTitle}/>
+            <div className="flex justify-center">
+              <div className="pb-4 relative" style={{ height: "400px", width: `${displayWidth < 200 ? 200 : displayWidth}px` }}>
+                <Line 
+                  data={graphData}
+                  options={options}
+                  id="chart-key"
+                />
+              </div>
+            </div>
+          </>
+    );
+  }
+
+
   return (
     <>
-      <section className="">
-        {
-          visibleData.length ?
-            <>
-              <h2 className="text-center">{trainingTitle}:総負荷グラフ<AiOutlineQuestionCircle className="inline-block hover:cursor-pointer" style={{ position: "relative", top: "-2px" }} onClick={() => toggleShow()}/></h2>
-              <div className="flex justify-center">
-                <div className="pb-4 relative" style={{ height: "400px", width: `${displayWidth < 200 ? 200 : displayWidth}px` }}>
-                  <div className="flex items-center justify-center">
-                    {commentFlg ? <Comment animate={animateFlg}/> : ""}
-                  </div>
-                  <Line 
-                    data={graphData}
-                    options={options}
-                    id="chart-key"
-                  />
-                </div>
-              </div>
-            </>
-          :
-            ""
-        }
+         {trainingData.length ? <ShowChart /> : <ChartState message="データがありません" />}
          
           <div className="pb-10 flex justify-center">
           {totalPage > 1 ?
@@ -183,10 +182,8 @@ const Chart: React.FC<any> = ({trainingData, trainingTitle}) => {
             </>
           : ""}
           </div>
-        
-      </section>
     </>
   );
-};
+});
 
 export default Chart;
