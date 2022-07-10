@@ -16,6 +16,9 @@ import { addDoc, collection, deleteDoc, doc, onSnapshot, query, updateDoc, where
 import { BENCHPRESS, LEGPRESS, PULLDOWN } from "../syumokuList";
 import Chart from "./Chart";
 import ChartState from "./ChartState";
+import Header from "./Header";
+import FlashMessage from "./FlashMessage";
+import Footer from "./Footer";
 
 type ERR = {
   weight: string;
@@ -193,6 +196,9 @@ const Detail: React.FC = () => {
 
   return (
     <>
+    <Header />
+    <main className="relative" style={{ minHeight: "calc(100vh - 124px)" }}>
+    <FlashMessage />
       <div className="pt-20">
         <div className="text-center mb-4">
           <h2 className="inline-block text-center font-bold font-lg relative">{trainingTitle}<Link to={"/main"}><button className={styles.nav}>前</button></Link></h2>
@@ -230,6 +236,8 @@ const Detail: React.FC = () => {
           </section>
         </div>
       </div>
+      </main>
+      <Footer />
     </>
   );
 };

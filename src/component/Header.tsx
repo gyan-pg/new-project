@@ -11,8 +11,8 @@ const Header = () => {
   return (
     <>
       <header className="bg-yellow-300 flex py-4 justify-between items-center">
-        <h1 className="text-3xl font-bold ml-20">header</h1>
-        {login ? <button className="mr-20" onClick={() => signOut(auth)}>ログアウト<MdLogout/></button> : ""}
+        <Link to="/"><h1 className="text-3xl font-bold ml-20">header</h1></Link>
+        {login ? <button className="mr-20" onClick={() => signOut(auth)}>logout<MdLogout className="inline-block ml-4"/></button> : ""}
       </header>
     </>
   );

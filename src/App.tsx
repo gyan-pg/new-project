@@ -40,20 +40,15 @@ const App: React.FC = () => {
   return (
     <>
       <article className="mx-auto">
-      <Header />
-      <FlashMessage />
-      <main className="relative" style={{ minHeight: "calc(100vh - 124px)" }}>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Top />} />
+            <Route path="/" element={AuthCheck ? <Navigate to="/main" /> : <Top />} />
             <Route path="/auth" element={AuthCheck ? <Navigate to="/main" /> : <Auth />}/>
             <Route path="/main" element={AuthCheck ? <Main /> : <Navigate to="/auth" />} />
             <Route path="/detail/:query" element={AuthCheck ? <Detail /> : <Navigate to="/auth" />}/>
             <Route path="*" element={<NotFound/>} />
           </Routes>
         </BrowserRouter>
-        </main>
-        <Footer />
       </article>
     </>
   );

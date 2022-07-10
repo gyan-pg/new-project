@@ -7,6 +7,9 @@ import { auth } from "../firebase";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { Link } from "react-router-dom";
 import Loading from "./Loading";
+import Header from "./Header";
+import FlashMessage from "./FlashMessage";
+import Footer from "./Footer";
 
 const Auth = () => {
 
@@ -120,6 +123,10 @@ const Auth = () => {
 
 
   return (
+    <>
+    <Header />
+    <main className="relative" style={{ minHeight: "calc(100vh - 124px)" }}>
+    <FlashMessage />
     <section className="mx-auto w-80 pt-20">
       {AuthCheck ? <Link to="/main">main</Link> : ""}
       <h2 className="text-center">{changeForm ? "LOGIN": "REGISTER"}</h2>
@@ -149,6 +156,9 @@ const Auth = () => {
       </div>
       {loadingFlg ? <Loading /> : ""}
     </section>
+    </main>
+    <Footer />
+    </>
   );
 };
 
