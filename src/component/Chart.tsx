@@ -15,6 +15,7 @@ import { Line } from 'react-chartjs-2';
 import ChartState from './ChartState';
 import TrainingTitle from './TrainingTitle';
 
+
 ChartJS.register(
   CategoryScale,
   LinearScale,

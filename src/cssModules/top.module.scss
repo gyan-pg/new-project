@@ -1,0 +1,35 @@
+img {
+  object-fit: cover;
+}
+.catchCopy {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 60px;
+}
+
+.pictureGirl {
+  &Container {
+    position: absolute;
+    top: 0;
+    left: 10%;
+    z-index: -1;
+    width: 30%;
+  }
+}
+.pictureBoy {
+  &Container {
+    position: absolute;
+    bottom: 0;
+    right: 10%;
+    z-index: -1;
+    width: 30%;
+  }
+}
+
+.introductionContainer {
+  background: rgba(255, 255, 255, 0.7);
+  padding: 20px;
+  border-radius: 10px;
+}
