@@ -1,17 +1,19 @@
 import { config } from 'process';
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useSpring, animated } from 'react-spring';
-import styles from '../cssModules/top.module.scss';
 import { IParallax, Parallax, ParallaxLayer } from '@react-spring/parallax';
 import '../css/top.scss';
+import trainingGuy from '../images/trainingGuy.jpeg';
+import slim from '../images/slim.jpeg';
+import sleep from '../images/sleep.jpeg';
+import memory from '../images/memory.jpeg';
+import young from '../images/young.jpeg';
+import stress from '../images/stress.jpeg';
+import register from '../images/register.jpeg';
+import memo from '../images/memo.jpeg';
+import select from '../images/select.jpeg';
 
 // images
-import trainingWoman from '../images/muscle_girl.jpeg';
-import manInFrontOfBoard from '../images/before_training.jpeg';
-import humin from '../images/humin.png';
-import fat from '../images/fat.png';
-import ikigire from '../images/ikigire.png';
 
 const Top = () => {
   // const [flip, set] = useState(false);
@@ -30,8 +32,8 @@ const Top = () => {
   const section3Offset = section2Offset + 2.5;
   const section4Offset = section3Offset + 3;
   const section5Offset = section4Offset + 1;
-  const totalPage = section5Offset + 1;
-
+  const totalPage = section5Offset + 2.5;
+  console.log(totalPage);
   useEffect(() => {
     const container = document.querySelector('.parallaxContainer');
     container?.addEventListener('scroll', () => {
@@ -39,42 +41,121 @@ const Top = () => {
       let scrollHeight = parallax.current.current / window.innerHeight;
 
       if (scrollHeight > 4.6) document.querySelector('.js-slide-in')?.classList.add('active');
-      if (scrollHeight > 5.4 || scrollHeight < 4.6)
+      if (scrollHeight > 5 || scrollHeight < 4.6) {
         document.querySelector('.js-slide-in')?.classList.remove('active');
-      if (scrollHeight > 5.6) {
-        document.querySelector('.js-slide-in1')?.classList.add('active');
-      } else {
-        document.querySelector('.js-slide-in1')?.classList.remove('active');
       }
-      if (scrollHeight > 5.7) {
-        document.querySelector('.js-slide-in2')?.classList.add('active');
+
+      const slide1 = document.querySelectorAll('.js-slide-in1');
+      const slide2 = document.querySelectorAll('.js-slide-in2');
+      const slide3 = document.querySelectorAll('.js-slide-in3');
+      const slide4 = document.querySelectorAll('.js-slide-in4');
+      const slide5 = document.querySelectorAll('.js-slide-in5');
+
+      if (scrollHeight > 5) {
+        slide1.forEach((elm) => {
+          elm.classList.add('active');
+        });
       } else {
-        document.querySelector('.js-slide-in2')?.classList.remove('active');
+        slide1.forEach((elm) => {
+          elm.classList.remove('active');
+        });
+      }
+      if (scrollHeight > 5.2) {
+        slide2.forEach((elm) => {
+          elm.classList.add('active');
+        });
+      } else {
+        slide2.forEach((elm) => {
+          elm.classList.remove('active');
+        });
+      }
+      if (scrollHeight > 5.4) {
+        slide3.forEach((elm) => {
+          elm.classList.add('active');
+        });
+      } else {
+        slide3.forEach((elm) => {
+          elm.classList.remove('active');
+        });
+      }
+      if (scrollHeight > 5.6) {
+        slide4.forEach((elm) => {
+          elm.classList.add('active');
+        });
+      } else {
+        slide4.forEach((elm) => {
+          elm.classList.remove('active');
+        });
       }
       if (scrollHeight > 5.8) {
-        document.querySelector('.js-slide-in3')?.classList.add('active');
+        slide5.forEach((elm) => {
+          elm.classList.add('active');
+        });
       } else {
-        document.querySelector('.js-slide-in3')?.classList.remove('active');
-      }
-      if (scrollHeight > 5.9) {
-        document.querySelector('.js-slide-in4')?.classList.add('active');
-      } else {
-        document.querySelector('.js-slide-in4')?.classList.remove('active');
+        slide5.forEach((elm) => {
+          elm.classList.remove('active');
+        });
       }
       if (scrollHeight > 6) {
-        document.querySelector('.js-slide-in5')?.classList.add('active');
-      } else {
-        document.querySelector('.js-slide-in5')?.classList.remove('active');
-      }
-      if (scrollHeight > 6.2) {
         document.querySelector('.js-slide-in6')?.classList.add('active');
       } else {
         document.querySelector('.js-slide-in6')?.classList.remove('active');
       }
+
+      const slide7 = document.querySelectorAll('.js-slide-in7');
       if (scrollHeight > 7) {
-        document.querySelector('.js-slide-in7')?.classList.add('active');
+        slide7.forEach((elm) => {
+          elm.classList.add('active');
+        });
       } else {
-        document.querySelector('.js-slide-in7')?.classList.remove('active');
+        slide7.forEach((elm) => {
+          elm.classList.remove('active');
+        });
+      }
+
+      if (scrollHeight > 1.5) {
+        document.querySelector('.js-fade1')?.classList.add('active');
+      } else {
+        document.querySelector('.js-fade1')?.classList.remove('active');
+      }
+
+      const fade2 = document.querySelectorAll('.js-fade2');
+      if (scrollHeight > 1.7) {
+        fade2.forEach((elm) => {
+          elm.classList.add('active');
+        });
+      } else {
+        fade2.forEach((elm) => {
+          elm.classList.remove('active');
+        });
+      }
+
+      if (scrollHeight > 8.5) {
+        document.querySelector('.js-fade3')?.classList.add('active');
+      } else {
+        document.querySelector('.js-fade3')?.classList.remove('active');
+      }
+
+      if (scrollHeight > 8.8) {
+        document.querySelector('.js-slide-up1')?.classList.add('active');
+      } else {
+        document.querySelector('.js-slide-up1')?.classList.remove('active');
+      }
+
+      if (scrollHeight > 9.1) {
+        document.querySelector('.js-slide-up2')?.classList.add('active');
+      } else {
+        document.querySelector('.js-slide-up2')?.classList.remove('active');
+      }
+      if (scrollHeight > 9.4) {
+        document.querySelector('.js-slide-up3')?.classList.add('active');
+      } else {
+        document.querySelector('.js-slide-up3')?.classList.remove('active');
+      }
+      if (scrollHeight > 9.7) {
+        document.querySelector('.js-slide-up4')?.classList.add('active');
+      } else {
+        document.querySelector('.js-slide-up4')?.classList.remove('active');
       }
     });
   });
@@ -92,74 +173,43 @@ const Top = () => {
         </nav>
       </header>
       <Parallax ref={parallax} pages={totalPage} className="parallaxContainer">
-        <ParallaxLayer factor={4.5}>
-          <div className={styles.linearAnimation}></div>
+        <ParallaxLayer factor={1.21}>
+          <div className="linearAnimation"></div>
         </ParallaxLayer>
         {/* <section id="top" className="h-screen flex justify-center items-center"> */}
-        <div className={`relative font-mono h-screen w-screen flex items-center justify-center`}>
+        <div className="eyeCatchContainer">
           <div>
-            <p className="text-6xl text-center headMessage">
-              Strength training won't betray you!!!!
-            </p>
-            <p className="mt-5 font-sans text-center">
-              筋トレはあなたを裏切らない！！<span className="text-gray-300 text-xs">たぶん</span>
+            <p className="headMessage">Strength training won't betray you!!!!</p>
+            <p className="headMessageSub">
+              筋トレはあなたを裏切らない！！<span className="seekMessage">たぶん</span>
             </p>
           </div>
         </div>
-        {/* </section> */}
-        {/* <section id="introduction" className="h-screen flex relative justify-center items-center"> */}
-        {/* <ParallaxLayer offset={3} speed={0.2}>
-          <div className={styles.pictureGirlContainer}>
-            <img src={trainingWoman} className={styles.pictureGirl} alt="筋トレしている女性" />
-          </div>
-        </ParallaxLayer> */}
-        {/* <ParallaxLayer offset={2.5} speed={0.5}>
-          <div className={styles.pictureBoyContainer}>
-            <img src={manInFrontOfBoard} className={styles.pictureBoy} alt="筋トレしたそうな男性" />
-          </div>
-        </ParallaxLayer> */}
-        <ParallaxLayer offset={0.7} sticky={{ start: 1.3, end: 3 }} speed={-0.3}>
-          <h2 className={styles.sectionTitle}>なぜ筋トレ？？？</h2>
-        </ParallaxLayer>
-        <ParallaxLayer
-          offset={section2Offset}
-          sticky={{ start: 2, end: 3 }}
-          style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-        >
-          <div
-            style={{
-              display: 'inline-block',
-              padding: '40px',
-              borderRadius: '20px',
-              backgroundColor: 'rgba(255, 180, 100, 0.5)',
-            }}
-          >
-            <p>30代になって体力が落ちた、太りやすくなった、なんて感じていませんか？</p>
-            <p>
-              20代の頃は平気だった無理が今はできない、集中力が落ちている、よく眠れなくなった・・・などなど
-            </p>
-            <p>その変化はちょっと怖くも感じますが、加齢による衰えで普通のことです</p>
-            <p>普通のことだからといって、それを受け入れてしまっても良いのでしょうか？</p>
-            <p>答えはもちろん、否です！！</p>
-            <p>いつまでも元気で、はつらつとして生きていきたいですよね！</p>
-            <p>そう思っているあなたに残された道はひとつしかありません</p>
-            <p>筋トレです！！！</p>
+        <ParallaxLayer offset={0.7} sticky={{ start: 1.3, end: 3 }}>
+          <h2 className="sectionAlpha">ABOUT</h2>
+          <div className="sectionAlphaImgContainer js-fade2">
+            <img src={trainingGuy} alt="training" />
           </div>
         </ParallaxLayer>
-        <ParallaxLayer offset={section2Offset + 0.9} speed={0.5}>
-          <div className={styles.imageContainerLeft}>
-            <img src={humin} className={styles.img} />
+        <ParallaxLayer offset={section2Offset} sticky={{ start: 1.5, end: 3 }}>
+          <div className="aboutMessageContainer">
+            <p className="sectionMessage about js-fade1">今こそ筋トレを始めよう！</p>
+            <div className="sectionMessageBody about js-fade2">
+              <p>30代になって体力が落ちた、太りやすくなった、なんて感じていませんか？</p>
+              <p>
+                20代の頃は平気だった無理が今はできない、集中力が落ちている、よく眠れなくなった・・・などなど
+              </p>
+              <p>その変化はちょっと怖くも感じますが、加齢による衰えで普通のことです</p>
+              <p>普通のことだからといって、それを受け入れてしまっても良いのでしょうか？</p>
+              <p>答えはもちろん、否です！！</p>
+              <p>いつまでも元気で、はつらつとして生きていきたいですよね！</p>
+              <p>そう思っているあなたに残された道はひとつしかありません</p>
+              <p>筋トレです！！！</p>
+            </div>
           </div>
         </ParallaxLayer>
-        <ParallaxLayer offset={section2Offset + 1.2} speed={0.7}>
-          <div className={styles.imageContainerLeft}>
-            <img src={fat} className={styles.img} />
-          </div>
-        </ParallaxLayer>
-        <ParallaxLayer offset={section2Offset + 1} speed={0.9}>
-          <div className={styles.imageContainerRight}>
-            <img src={ikigire} className={styles.img} />
-          </div>
+        <ParallaxLayer offset={section1Offset + 0.5} speed={0.5} factor={4}>
+          <div className="js-fade midBack" />
         </ParallaxLayer>
 
         {/* </section> */}
@@ -167,50 +217,72 @@ const Top = () => {
         <ParallaxLayer
           offset={section3Offset}
           sticky={{ start: section3Offset, end: section3Offset + 2 }}
+          speed={0.5}
         >
-          <h2 className={styles.sectionTitle}>筋トレの効能</h2>
-          <div className={styles.sectionContent}>
-            <div className={styles.sectionInner} id="benefitContainer">
+          <div className="benefitImg position1 js-slide-in1">
+            <img src={slim} />
+          </div>
+          <div className="benefitImg position2 js-slide-in2">
+            <img src={sleep} />
+          </div>
+          <div className="benefitImg position3 js-slide-in3">
+            <img src={memory} />
+          </div>
+          <div className="benefitImg position4 js-slide-in4">
+            <img src={young} />
+          </div>
+          <div className="benefitImg position5 js-slide-in5">
+            <img src={stress} />
+          </div>
+        </ParallaxLayer>
+        <ParallaxLayer
+          offset={section3Offset}
+          sticky={{ start: section3Offset, end: section3Offset + 2 }}
+        >
+          <h2 className="sectionAlpha">BENEFIT</h2>
+          <div className="benefitMessageContainer">
+            <div className="benefitContainer" id="benefitContainer">
               <div className="js-slide-in introduce">素晴らしき筋トレの効果をご紹介します！</div>
               <h3 className="js-slide-in1 benefit offset1">
                 <p className="benefitInner">
-                  <span className="benefitNo">1.</span>痩せやすい体になる！
+                  <span className="benefitNo">1</span>痩せやすい体になる！
                 </p>
               </h3>
               <h3 className="js-slide-in2 benefit offset2">
                 <p className="benefitInner">
-                  <span className="benefitNo">2.</span>自律神経が整う＝快眠効果！
+                  <span className="benefitNo">2</span>自律神経が整う＝快眠効果！
                 </p>
               </h3>
 
               <h3 className="js-slide-in3 benefit offset3">
                 <p className="benefitInner">
-                  <span className="benefitNo">3.</span>記憶力がアップする！
+                  <span className="benefitNo">3</span>記憶力がアップする！
                 </p>
               </h3>
               <h3 className="js-slide-in4 benefit offset4">
                 <p className="benefitInner">
-                  <span className="benefitNo">4.</span>若々しさを保てる！
+                  <span className="benefitNo">4</span>若々しさを保てる！
                 </p>
               </h3>
               <h3 className="js-slide-in5 benefit offset5">
                 <p className="benefitInner">
-                  <span className="benefitNo">5.</span>ストレス発散！
+                  <span className="benefitNo">5</span>ストレス発散！
                 </p>
               </h3>
             </div>
-            <p className="js-slide-in6 benefit">などなど、良い効能が期待できます！</p>
+            <p className="js-slide-in6 benefit">など、素晴らしい効能が期待できます！</p>
           </div>
         </ParallaxLayer>
         {/* </section> */}
         {/* <section id="recommend" className="h-screen"> */}
         <ParallaxLayer offset={section4Offset}>
+          <h2 className="sectionAlpha">What you need?</h2>
           <div className="doubleColumnContainer">
             <div className="doubleColumnLeft js-slide-in7">
               <h2 className="doubleColumnCenter">筋トレにおいて必要なもの</h2>
             </div>
             <div className="doubleColumnRight">
-              <div className="doubleColumnCenter">
+              <div className="doubleColumnRightContent js-slide-in7">
                 <p>
                   ここまで筋トレの良い側面についてお伝えしましたが、なぜ筋トレを日常的に行わない方が多いのでしょうか？
                 </p>
@@ -236,16 +308,38 @@ const Top = () => {
         </ParallaxLayer>
         {/* </section> */}
         {/* <section id="conclusion" className="h-screen"> */}
-        <ParallaxLayer offset={section5Offset}>
-          <h2>筋トレAPPの使い方</h2>
-          <p>このアプリの使い方は簡単３ステップです。</p>
-          <h3>1.ユーザー登録をする</h3>
-          <p>まずはユーザー登録をしましょう。</p>
-          <h3>2.トレーニング項目を選択する</h3>
-          <p>ログイン後の画面でトレーニングの項目を選択してください。</p>
-          <h3>3.記録をつける</h3>
-          <p>トレーニング項目を選択したら、あとは記録をつけるだけです。</p>
-          <p>
+        <ParallaxLayer
+          offset={section5Offset}
+          sticky={{ start: section5Offset, end: section5Offset + 2 }}
+        >
+          <h2 className="sectionAlpha">How to use</h2>
+          <div className="js-fade3 usageSection">
+            <p className="usageMessage">このアプリは簡単３ステップでご利用になれます。</p>
+            <div className="usageCardContainer">
+              <div className="usageCard js-slide-up1">
+                <h3 className="usageCardTitle">1.ユーザー登録をする</h3>
+                <div className="usageCardImgContainer">
+                  <img className="usageCardImg" src={register} />
+                </div>
+                <p>まずはユーザー登録をしましょう。</p>
+              </div>
+              <div className="usageCard js-slide-up2">
+                <h3 className="usageCardTitle">2.トレーニング項目を選択する</h3>
+                <div className="usageCardImgContainer">
+                  <img className="usageCardImg" src={select} />
+                </div>
+                <p>ログイン後の画面でトレーニングの項目を選択してください。</p>
+              </div>
+              <div className="usageCard js-slide-up3">
+                <h3 className="usageCardTitle">3.記録をつける</h3>
+                <div className="usageCardImgContainer">
+                  <img className="usageCardImg" src={memo} />
+                </div>
+                <p>トレーニング項目を選択したら、あとは記録をつけるだけです。</p>
+              </div>
+            </div>
+          </div>
+          <p className="usageCardConclusion js-slide-up4">
             トレーニングの記録はグラフとして表示されますので、あなたのこれまでの成長を一目で確認することができます。
           </p>
         </ParallaxLayer>
