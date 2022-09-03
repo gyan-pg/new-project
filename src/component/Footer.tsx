@@ -1,7 +1,8 @@
-import React from "react";
+import React from 'react';
+import '../css/footer.scss';
 
 const Footer = () => {
-  return <footer className="text-center py-4 bg-yellow-300">筋トレ</footer>;
+  return <footer className="footer">筋トレ</footer>;
 };
 
 export default Footer;

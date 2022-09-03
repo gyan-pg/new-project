@@ -163,11 +163,11 @@ const Top = () => {
   return (
     <>
       {/* <animated.h1 style={props}>hello</animated.h1> */}
-      <header className="fixed right-0 py-5 mr-20 z-10">
-        <nav className="">
-          <ul className="text-gray-500 hover:text-gray-300">
+      <header className="topHeader">
+        <nav className="nav">
+          <ul className="navList">
             <Link to="/auth">
-              <li>login / register</li>
+              <li className="navItem">login / register</li>
             </Link>
           </ul>
         </nav>
