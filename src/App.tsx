@@ -12,7 +12,7 @@ import { auth } from './firebase';
 import Top from './component/Top';
 import NotFound from './component/NotFound';
 import FlashMessage from './component/FlashMessage';
-import './css/base.scss';
+import './css/style.scss';
 
 const App: React.FC = () => {
   const dispatch = useDispatch();

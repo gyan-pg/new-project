@@ -1,8 +1,6 @@
-import { config } from 'process';
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { IParallax, Parallax, ParallaxLayer } from '@react-spring/parallax';
-import '../css/top.scss';
 import trainingGuy from '../images/trainingGuy.jpeg';
 import slim from '../images/slim.jpeg';
 import sleep from '../images/sleep.jpeg';
@@ -15,7 +13,7 @@ import select from '../images/select.jpeg';
 
 // images
 
-const Top = () => {
+const Top: React.FC = () => {
   // const [flip, set] = useState(false);
   // const props = useSpring({
   //   to: {opacity: 1, color: "red"},

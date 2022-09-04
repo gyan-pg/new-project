@@ -1,0 +1,50 @@
+.mainTitle {
+  font-size: 3.6rem;
+  padding: 1rem 0;
+  text-align: center;
+}
+.recordListTable {
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  max-width: 980px;
+}
+.gridRow {
+  grid-column-start: 1;
+  grid-column-end: 4;
+}
+.registerBtn {
+  border: 1px solid $color_green;
+  padding: 0 $space_s;
+  border-radius: 5px;
+  overflow: hidden;
+  position: relative;
+  color: $color_green;
+  transition: $transtime_default;
+  background: transparent;
+  &:before {
+    position: absolute;
+    content: '';
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: $color_green;
+    z-index: -1;
+    transition: $transtime_default;
+    left: 0;
+    top: 0;
+    transform: translate(-100%, -50%);
+  }
+  &:hover {
+    transition: $transtime_default;
+    color: white;
+    &:before {
+      transition: $transtime_default;
+      transform: scale(3);
+    }
+  }
+  &Container {
+    line-height: 5vh;
+    text-align: center;
+  }
+}

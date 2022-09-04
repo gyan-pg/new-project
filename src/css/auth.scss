@@ -1,0 +1,41 @@
+.authContainer {
+  padding-top: 5vh;
+  width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.authInput {
+  width: 100%;
+  border: 1px solid #ddd;
+  margin-bottom: 20px;
+  padding: 5px 10px;
+}
+.authTitle {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 2rem;
+}
+.authBtnContainer {
+  display: flex;
+  justify-content: space-between;
+}
+.btn {
+  padding: 5px 0;
+  width: 35%;
+  border: 1px solid #ddd;
+  font-size: 1.2rem;
+  text-align: center;
+  &:hover {
+    opacity: 0.5;
+  }
+  &:disabled:hover {
+    opacity: 1;
+  }
+  &.notSubmit {
+    background: #eaeaea;
+  }
+  &.submit {
+    background: #a1f1b1;
+    border: 1px solid #a1f1b1;
+  }
+}

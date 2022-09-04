@@ -8,7 +8,6 @@ import { BENCHPRESS, LEGPRESS, PULLDOWN } from '../syumokuList';
 import Header from './Header';
 import FlashMessage from './FlashMessage';
 import Footer from './Footer';
-import '../css/main.scss';
 import RegisterTrainingForm from './RegisterTrainingForm';
 import Modal from './Modal';
 
@@ -44,7 +43,13 @@ const Main = () => {
         </section>
       </main>
       <Footer />
-      {showModalFlg ? <Modal showModalFlg={showModalFlg} setShowModalFlg={setShowModalFlg} /> : ''}
+      {showModalFlg ? (
+        <Modal showModalFlg={showModalFlg} setShowModalFlg={setShowModalFlg}>
+          <RegisterTrainingForm />
+        </Modal>
+      ) : (
+        ''
+      )}
     </>
   );
 };

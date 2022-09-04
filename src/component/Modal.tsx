@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import '../css/modal.scss';
+import React, { ReactElement, useState } from 'react';
 
 type Props = {
   showModalFlg: boolean;
   setShowModalFlg: React.Dispatch<React.SetStateAction<boolean>>;
+  children: ReactElement;
 };
 
-const Modal: React.FC<Props> = ({ showModalFlg, setShowModalFlg }) => {
+const Modal: React.FC<Props> = ({ showModalFlg, setShowModalFlg, children }) => {
   const [modalCloseFlg, setModalCloseFlg] = useState(false);
   const clickHideModal = () => {
     setModalCloseFlg(true);
@@ -23,7 +23,7 @@ const Modal: React.FC<Props> = ({ showModalFlg, setShowModalFlg }) => {
           className={modalCloseFlg ? 'hide modal' : 'modal'}
           onClick={() => clickHideModal()}
         >
-          modal window
+          {children}
         </div>
       ) : (
         ''

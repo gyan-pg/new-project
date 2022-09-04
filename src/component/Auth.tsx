@@ -9,7 +9,6 @@ import {
   signInWithEmailAndPassword,
   updateProfile,
 } from 'firebase/auth';
-import '../css/auth.scss';
 import { Link } from 'react-router-dom';
 import Loading from './Loading';
 import Header from './Header';

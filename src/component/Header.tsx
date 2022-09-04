@@ -5,9 +5,8 @@ import { MdLogout, MdLogin } from 'react-icons/md';
 import { signOut } from 'firebase/auth';
 import { auth } from '../firebase';
 import { Link } from 'react-router-dom';
-import '../css/header.scss';
 
-const Header = () => {
+const Header: React.FC = () => {
   const login = useSelector(isLogin);
   return (
     <>

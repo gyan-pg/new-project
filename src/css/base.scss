@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans&family=Zen+Maru+Gothic:wght@300;400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans&family=Noto+Sans+JP&display=swap');
+$engfont: 'Zen Maru Gothic', sans-serif;
+$jpfont: 'Noto Sans JP', sans-serif;
+$height_header: 60px;
+$height_footer: 60px;
+
+$border_default: 1px solid #aaa;
+
+// transition
+$transtime_default: 0.3s;
+
+// color
+$color_green: rgb(28, 139, 89);
+$color_err: #f89494;
+
+// space
+$space_xs: 5px;
+$space_s: 10px;
+$space_ms: 15px;
+$space_m: 20px;
+$space_l: 30px;
+$space_2l: 40px;
+
+* {
+  box-sizing: border-box;
+}
+html {
+  font-size: 10px;
+  line-height: 1.6;
+}
+body {
+  margin: 0;
+  padding: 0;
+}
+.mainContainer {
+  height: calc(100vh - 122px);
+}
+.textErr {
+  color: $color_err;
+  font-size: 1rem;
+  margin-left: 10px;
+}
+.articleMain {
+  position: relative;
+  margin: 0 auto;
+  height: 100vh;
+}
