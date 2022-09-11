@@ -1,26 +1,26 @@
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  selectModalFlg,
+  setModalFlg,
+  setCloseModalFlg,
+  selectCloseModalFlg,
+} from '../features/modalSlice';
+import useModalHook from './hook/useModalHook';
 
 type Props = {
-  showModalFlg: boolean;
-  setShowModalFlg: React.Dispatch<React.SetStateAction<boolean>>;
   children: ReactElement;
 };
 
-const Modal: React.FC<Props> = ({ showModalFlg, setShowModalFlg, children }) => {
-  const [modalCloseFlg, setModalCloseFlg] = useState(false);
-  const clickHideModal = () => {
-    setModalCloseFlg(true);
-    document.getElementById('modal')?.addEventListener('animationend', () => {
-      setModalCloseFlg(false);
-      setShowModalFlg(false);
-    });
-  };
+const Modal: React.FC<Props> = ({ children }) => {
+  const { showModalFlg, closeModalFlg, clickHideModal } = useModalHook();
+
   return (
     <>
       {showModalFlg ? (
         <div
           id="modal"
-          className={modalCloseFlg ? 'hide modal' : 'modal'}
+          className={closeModalFlg ? 'hide modal' : 'modal'}
           onClick={() => clickHideModal()}
         >
           {children}

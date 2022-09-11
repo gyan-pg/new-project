@@ -1,18 +1,22 @@
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectModalFlg, setModalFlg } from '../features/modalSlice';
 import { Link } from 'react-router-dom';
 // picture
 import benchPress from '../images/bench_press.jpeg';
 import pullDown from '../images/pull_down.jpg';
 import legPress from '../images/leg_press.jpeg';
 import { BENCHPRESS, LEGPRESS, PULLDOWN } from '../syumokuList';
+
 import Header from './Header';
 import FlashMessage from './FlashMessage';
 import Footer from './Footer';
 import RegisterTrainingForm from './RegisterTrainingForm';
 import Modal from './Modal';
 
-const Main = () => {
-  const [showModalFlg, setShowModalFlg] = useState(false);
+const Main: React.FC = () => {
+  const showModalFlg = useSelector(selectModalFlg);
+  const dispatch = useDispatch();
 
   return (
     <>
@@ -24,7 +28,7 @@ const Main = () => {
         </section>
         <section className="recordListTable">
           <div className="gridRow registerBtnContainer">
-            <button className="registerBtn" onClick={() => setShowModalFlg(!showModalFlg)}>
+            <button className="registerBtn" onClick={() => dispatch(setModalFlg(!showModalFlg))}>
               トレーニングを追加
             </button>
           </div>
@@ -44,7 +48,7 @@ const Main = () => {
       </main>
       <Footer />
       {showModalFlg ? (
-        <Modal showModalFlg={showModalFlg} setShowModalFlg={setShowModalFlg}>
+        <Modal>
           <RegisterTrainingForm />
         </Modal>
       ) : (

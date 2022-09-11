@@ -18,7 +18,9 @@
     z-index: 1;
   }
 }
-
+.modalBtn {
+  z-index: 1;
+}
 @keyframes showModal {
   0% {
     opacity: 0;
