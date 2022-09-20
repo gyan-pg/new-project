@@ -1,11 +1,4 @@
-import React, { ReactElement, useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import {
-  selectModalFlg,
-  setModalFlg,
-  setCloseModalFlg,
-  selectCloseModalFlg,
-} from '../features/modalSlice';
+import React, { ReactElement } from 'react';
 import useModalHook from './hook/useModalHook';
 
 type Props = {

@@ -48,3 +48,17 @@
     text-align: center;
   }
 }
+.trainingCard {
+  width: 100%;
+  border: $border_default;
+  padding-top: $space_s;
+  border-radius: 5px;
+  &Container {
+    padding: $space_m;
+  }
+  &Title {
+    text-align: center;
+    padding-bottom: $space_s;
+    border-bottom: $border_default;
+  }
+}

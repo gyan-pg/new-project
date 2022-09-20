@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
-// import { useSelector, useDispatch } from 'react-redux';
-// import { selectModalFlg, setModalFlg, setCloseModalFlg } from '../features/modalSlice';
+import { useSelector } from 'react-redux';
+import { selectUser } from '../features/userSlice';
 import useModalHook from './hook/useModalHook';
 import dumbbell from '../images/weight2.png';
 import machine from '../images/runningmachine.png';
 import bench from '../images/bench.png';
+import { addDoc, collection } from 'firebase/firestore';
+import { db } from '../firebase';
 
 const RegisterTrainingForm: React.FC = () => {
   const { clickHideModal } = useModalHook();
@@ -16,6 +18,9 @@ const RegisterTrainingForm: React.FC = () => {
     trainingName: '',
     imagePass: '',
   });
+
+  const user = useSelector(selectUser);
+
   const [errFlg, setErrFlg] = useState(false);
   const stopEvent = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     e.stopPropagation();
@@ -52,25 +57,70 @@ const RegisterTrainingForm: React.FC = () => {
     validRequired(str);
   };
 
-  const validImagePass = () => {
+  const registerTraining = () => {
+    registerTrainingSection();
+    clickHideModal();
+  };
+
+  useEffect(() => {
+    const inputFlg = selectImg.find((e) => e === true);
     if (selectImgFlg) {
-      if (imagePass.length === 0) {
-        setErrFlg(true);
-        const msg = { ...errMsg };
-        msg.imagePass = '画像を選択してください';
-        setErrMsg(msg);
-      } else {
+      if (inputFlg) {
         setErrFlg(false);
         const msg = { ...errMsg };
         msg.imagePass = '';
         setErrMsg(msg);
+      } else {
+        setErrFlg(true);
+        const msg = { ...errMsg };
+        msg.imagePass = '画像を選択してください';
+        setErrMsg(msg);
       }
     }
+  }, [selectImg]);
+
+  // 登録
+  const registerTrainingSection = async () => {
+    const colRef = collection(db, 'trainingSection');
+    const data = {
+      uid: user.uid,
+      trainingName,
+      imagePass,
+    };
+    await addDoc(colRef, data);
   };
 
-  const registerTraining = () => {
-    clickHideModal();
-  };
+  /*
+      // 選択した日ですでに登録されているのか確認する。
+      let skipFlg = false;
+      trainingData.forEach((elm) => {
+        if (elm.registerDate === calendarDate) {
+          skipFlg = true;
+          const conf = window.confirm(
+            `${calendarDate}のデータはすでに登録されています。上書きしますか？`
+          );
+          if (conf) {
+            // updateの処理
+            console.log('update');
+            const ref = doc(db, 'trainingData', elm.id);
+            updateDoc(ref, {
+              weight: weight,
+              sets: sets,
+              frequency: frequency,
+            });
+            refreshForm();
+            dispatch(setSuccessMsg('レコードを更新しました。'));
+            return false;
+          }
+        }
+      });
+      if (!skipFlg) {
+        await addDoc(colRef, data);
+        refreshForm();
+        dispatch(setSuccessMsg('レコードを追加しました。'));
+      }
+    };
+    */
 
   return (
     <>
@@ -94,7 +144,6 @@ const RegisterTrainingForm: React.FC = () => {
               className={selectImg[0] ? `iconContainer active` : `iconContainer`}
               onClick={() => {
                 clickChangeSelect(0, 'bench');
-                validImagePass();
                 setSelectImgFlg(true);
               }}
             >
@@ -104,7 +153,6 @@ const RegisterTrainingForm: React.FC = () => {
               className={selectImg[1] ? `iconContainer active` : `iconContainer`}
               onClick={() => {
                 clickChangeSelect(1, 'machine');
-                validImagePass();
                 setSelectImgFlg(true);
               }}
             >
@@ -114,7 +162,6 @@ const RegisterTrainingForm: React.FC = () => {
               className={selectImg[2] ? `iconContainer active` : `iconContainer`}
               onClick={() => {
                 clickChangeSelect(2, 'dumbbell');
-                validImagePass();
                 setSelectImgFlg(true);
               }}
             >
