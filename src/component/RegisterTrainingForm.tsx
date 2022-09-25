@@ -5,7 +5,7 @@ import useModalHook from './hook/useModalHook';
 import dumbbell from '../images/weight2.png';
 import machine from '../images/runningmachine.png';
 import bench from '../images/bench.png';
-import { addDoc, collection } from 'firebase/firestore';
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { db } from '../firebase';
 
 const RegisterTrainingForm: React.FC = () => {
@@ -14,6 +14,7 @@ const RegisterTrainingForm: React.FC = () => {
   const [selectImg, setSelectImg] = useState([false, false, false]);
   const [selectImgFlg, setSelectImgFlg] = useState(false);
   const [imagePass, setImagePass] = useState('');
+  const [submitFlg, setSubmitFlg] = useState(false);
   const [errMsg, setErrMsg] = useState({
     trainingName: '',
     imagePass: '',
@@ -63,6 +64,14 @@ const RegisterTrainingForm: React.FC = () => {
   };
 
   useEffect(() => {
+    if (imagePass.length && trainingName.length) {
+      setSubmitFlg(true);
+    } else {
+      setSubmitFlg(false);
+    }
+  }, [selectImg, trainingName]);
+
+  useEffect(() => {
     const inputFlg = selectImg.find((e) => e === true);
     if (selectImgFlg) {
       if (inputFlg) {
@@ -86,41 +95,11 @@ const RegisterTrainingForm: React.FC = () => {
       uid: user.uid,
       trainingName,
       imagePass,
+      createdAt: serverTimestamp(),
+      updatedAt: serverTimestamp(),
     };
     await addDoc(colRef, data);
   };
-
-  /*
-      // 選択した日ですでに登録されているのか確認する。
-      let skipFlg = false;
-      trainingData.forEach((elm) => {
-        if (elm.registerDate === calendarDate) {
-          skipFlg = true;
-          const conf = window.confirm(
-            `${calendarDate}のデータはすでに登録されています。上書きしますか？`
-          );
-          if (conf) {
-            // updateの処理
-            console.log('update');
-            const ref = doc(db, 'trainingData', elm.id);
-            updateDoc(ref, {
-              weight: weight,
-              sets: sets,
-              frequency: frequency,
-            });
-            refreshForm();
-            dispatch(setSuccessMsg('レコードを更新しました。'));
-            return false;
-          }
-        }
-      });
-      if (!skipFlg) {
-        await addDoc(colRef, data);
-        refreshForm();
-        dispatch(setSuccessMsg('レコードを追加しました。'));
-      }
-    };
-    */
 
   return (
     <>
@@ -169,7 +148,11 @@ const RegisterTrainingForm: React.FC = () => {
             </div>
           </div>
           <div className="registerBtnContainer mt-m">
-            <button className="registerBtn modalBtn" onClick={() => registerTraining()}>
+            <button
+              className={`registerBtn modalBtn ${submitFlg ? '' : 'disabled'}`}
+              onClick={() => registerTraining()}
+              disabled={!submitFlg}
+            >
               登録する
             </button>
           </div>

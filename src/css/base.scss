@@ -35,6 +35,7 @@ body {
 }
 .mainContainer {
   height: calc(100vh - 122px);
+  overflow-y: scroll;
 }
 .textErr {
   color: $color_err;

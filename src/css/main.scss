@@ -15,7 +15,7 @@
 }
 .registerBtn {
   border: 1px solid $color_green;
-  padding: 0 $space_s;
+  padding: $space_s;
   border-radius: 5px;
   overflow: hidden;
   position: relative;
@@ -43,22 +43,18 @@
       transform: scale(3);
     }
   }
-  &Container {
-    line-height: 5vh;
-    text-align: center;
+  &.disabled {
+    background: #888;
+    color: #fff;
+    border: none;
+    &:hover {
+      &:before {
+        transform: scale(1);
+        transform: translate(-100%, -50%);
+      }
+    }
   }
-}
-.trainingCard {
-  width: 100%;
-  border: $border_default;
-  padding-top: $space_s;
-  border-radius: 5px;
   &Container {
-    padding: $space_m;
-  }
-  &Title {
     text-align: center;
-    padding-bottom: $space_s;
-    border-bottom: $border_default;
   }
 }
