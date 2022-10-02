@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectModalFlg, setModalFlg } from '../features/modalSlice';
-import { Link } from 'react-router-dom';
+import {
+  selectModalFlg,
+  setModalFlg,
+  setRegisterFlg,
+  selectRegisterFlg,
+} from '../features/modalSlice';
 
 import Header from './Header';
 import FlashMessage from './FlashMessage';
@@ -21,6 +25,7 @@ const Main: React.FC = () => {
   };
   const [trainingSection, setTrainingSection] = useState<TrainingSectionData[]>();
   const showModalFlg = useSelector(selectModalFlg);
+  const registerFlg = useSelector(selectRegisterFlg);
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
 
@@ -58,7 +63,13 @@ const Main: React.FC = () => {
         <section className="recordListTable">
           <>
             <div className="gridRow registerBtnContainer">
-              <button className="registerBtn" onClick={() => dispatch(setModalFlg(!showModalFlg))}>
+              <button
+                className="registerBtn"
+                onClick={() => {
+                  dispatch(setModalFlg(!showModalFlg));
+                  dispatch(setRegisterFlg(true));
+                }}
+              >
                 トレーニングを追加
               </button>
             </div>
@@ -77,7 +88,7 @@ const Main: React.FC = () => {
         </section>
       </main>
       <Footer />
-      {showModalFlg ? (
+      {showModalFlg && registerFlg ? (
         <Modal>
           <RegisterTrainingForm />
         </Modal>

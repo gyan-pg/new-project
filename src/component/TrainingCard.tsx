@@ -7,7 +7,7 @@ import { IconContext } from 'react-icons';
 import { deleteDoc, doc } from 'firebase/firestore';
 import { db } from '../firebase';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectModalFlg, setModalFlg } from '../features/modalSlice';
+import { selectModalFlg, selectEditFlg, setModalFlg, setEditFlg } from '../features/modalSlice';
 import Modal from './Modal';
 import RegisterTrainingForm from './RegisterTrainingForm';
 
@@ -20,6 +20,7 @@ type TrainingProps = {
 const TrainingCard: React.FC<TrainingProps> = ({ trainingName, imagePass, id }) => {
   const [imgPass, setImgPass] = useState('');
   const showModalFlg = useSelector(selectModalFlg);
+  const editFlg = useSelector(selectEditFlg);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -45,21 +46,6 @@ const TrainingCard: React.FC<TrainingProps> = ({ trainingName, imagePass, id }) 
     }
   };
 
-  // const deleteRecord = async () => {
-  //   const target = trainingData.find((elm) => {
-  //     if (elm.registerDate === calendarDate) {
-  //       return elm;
-  //     }
-  //   });
-  //   // 削除対象が存在しない
-  //   if (!target) {
-  //     alert('レコードが登録されていません。');
-  //     return;
-  //   }
-  //   await deleteDoc(doc(db, 'trainingData', target.id));
-  //   // レコードを削除したことを表示する処理
-  // };
-
   return (
     <>
       <div className="trainingCardContainer">
@@ -77,7 +63,10 @@ const TrainingCard: React.FC<TrainingProps> = ({ trainingName, imagePass, id }) 
               </button>
               <button
                 className="trainingCardSettingBtn"
-                onClick={() => dispatch(setModalFlg(!showModalFlg))}
+                onClick={() => {
+                  dispatch(setModalFlg(!showModalFlg));
+                  dispatch(setEditFlg(true));
+                }}
               >
                 <IconContext.Provider value={{ size: '2rem' }}>
                   <RiSettings2Line />
@@ -87,9 +76,9 @@ const TrainingCard: React.FC<TrainingProps> = ({ trainingName, imagePass, id }) 
           </div>
         </div>
       </div>
-      {showModalFlg ? (
+      {showModalFlg && editFlg ? (
         <Modal>
-          <RegisterTrainingForm />
+          <RegisterTrainingForm editFlg={true} id={id} />
         </Modal>
       ) : (
         ''

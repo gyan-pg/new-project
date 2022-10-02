@@ -3,6 +3,7 @@ import {
   selectModalFlg,
   selectCloseModalFlg,
   setCloseModalFlg,
+  setAllModalHideFlg,
   setModalFlg,
 } from '../../features/modalSlice';
 
@@ -15,6 +16,7 @@ const useModalHook = () => {
     document.getElementById('modal')?.addEventListener('animationend', () => {
       dispatch(setCloseModalFlg(false));
       dispatch(setModalFlg(false));
+      dispatch(setAllModalHideFlg(false));
     });
   };
   return {

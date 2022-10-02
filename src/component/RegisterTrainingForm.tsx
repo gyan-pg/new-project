@@ -5,10 +5,14 @@ import useModalHook from './hook/useModalHook';
 import dumbbell from '../images/weight2.png';
 import machine from '../images/runningmachine.png';
 import bench from '../images/bench.png';
-import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import { addDoc, collection, onSnapshot, query, serverTimestamp, where } from 'firebase/firestore';
 import { db } from '../firebase';
 
-const RegisterTrainingForm: React.FC = () => {
+type Props = {
+  editFlg?: boolean;
+  id?: string;
+};
+const RegisterTrainingForm: React.FC<Props> = ({ editFlg = false, id }) => {
   const { clickHideModal } = useModalHook();
   const [trainingName, setTrainingName] = useState('');
   const [selectImg, setSelectImg] = useState([false, false, false]);
@@ -22,7 +26,6 @@ const RegisterTrainingForm: React.FC = () => {
 
   const user = useSelector(selectUser);
 
-  const [errFlg, setErrFlg] = useState(false);
   const stopEvent = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     e.stopPropagation();
   };
@@ -41,12 +44,10 @@ const RegisterTrainingForm: React.FC = () => {
 
   const validRequired = (str: string) => {
     if (str.length === 0) {
-      setErrFlg(true);
       const msg = { ...errMsg };
       msg.trainingName = '入力必須項目です';
       setErrMsg(msg);
     } else {
-      setErrFlg(false);
       const msg = { ...errMsg };
       msg.trainingName = '';
       setErrMsg(msg);
@@ -62,6 +63,10 @@ const RegisterTrainingForm: React.FC = () => {
     registerTrainingSection();
     clickHideModal();
   };
+  const editTraining = () => {
+    editTrainingSection();
+    clickHideModal();
+  };
 
   useEffect(() => {
     if (imagePass.length && trainingName.length) {
@@ -75,18 +80,32 @@ const RegisterTrainingForm: React.FC = () => {
     const inputFlg = selectImg.find((e) => e === true);
     if (selectImgFlg) {
       if (inputFlg) {
-        setErrFlg(false);
         const msg = { ...errMsg };
         msg.imagePass = '';
         setErrMsg(msg);
       } else {
-        setErrFlg(true);
         const msg = { ...errMsg };
         msg.imagePass = '画像を選択してください';
         setErrMsg(msg);
       }
     }
   }, [selectImg]);
+
+  if (editFlg) {
+    const q = query(collection(db, 'trainingSection'), where('id', '==', id));
+    const unSub = onSnapshot(q, (querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        // trainingSectionData.push({
+        //   id: doc.id,
+        //   imagePass: data.imagePass,
+        //   trainingName: data.trainingName,
+        // });
+        setImagePass(data.imagePass);
+        setTrainingName(data.trainingName);
+      });
+    });
+  }
 
   // 登録
   const registerTrainingSection = async () => {
@@ -100,16 +119,20 @@ const RegisterTrainingForm: React.FC = () => {
     };
     await addDoc(colRef, data);
   };
+  // 編集
+  const editTrainingSection = async () => {};
 
   return (
     <>
       <section className="modalComponent" onClick={(e) => stopEvent(e)}>
         <div className="registerForm">
-          <h2 className="registerTitle">トレーニング登録フォーム</h2>
+          <h2 className="registerTitle">
+            {editFlg ? 'トレーニング編集フォーム' : 'トレーニング登録フォーム'}
+          </h2>
           <label className="inputName" htmlFor="trainingName">
             トレーニング名
           </label>
-          {errFlg ? <span className="textErr">{errMsg.trainingName}</span> : ''}
+          {errMsg.trainingName ? <span className="textErr">{errMsg.trainingName}</span> : ''}
           <input
             id="trainingName"
             className="trainingRegisterInput"
@@ -117,7 +140,7 @@ const RegisterTrainingForm: React.FC = () => {
             onChange={(e) => setValue(e.target.value)}
           />
           <label className="inputName">イメージ選択</label>
-          {errFlg ? <span className="textErr">{errMsg.imagePass}</span> : ''}
+          {errMsg.imagePass ? <span className="textErr">{errMsg.imagePass}</span> : ''}
           <div className="imgSelectContainer">
             <div
               className={selectImg[0] ? `iconContainer active` : `iconContainer`}
@@ -150,7 +173,9 @@ const RegisterTrainingForm: React.FC = () => {
           <div className="registerBtnContainer mt-m">
             <button
               className={`registerBtn modalBtn ${submitFlg ? '' : 'disabled'}`}
-              onClick={() => registerTraining()}
+              onClick={() => {
+                editFlg ? editTraining() : registerTraining();
+              }}
               disabled={!submitFlg}
             >
               登録する

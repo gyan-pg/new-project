@@ -22,6 +22,7 @@
   color: $color_green;
   transition: $transtime_default;
   background: transparent;
+  box-sizing: border-box;
   &:before {
     position: absolute;
     content: '';
@@ -47,6 +48,7 @@
     background: #888;
     color: #fff;
     border: none;
+    border: 1px solid #888;
     &:hover {
       &:before {
         transform: scale(1);
