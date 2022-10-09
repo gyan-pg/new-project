@@ -7,7 +7,14 @@ import { IconContext } from 'react-icons';
 import { deleteDoc, doc } from 'firebase/firestore';
 import { db } from '../firebase';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectModalFlg, selectEditFlg, setModalFlg, setEditFlg } from '../features/modalSlice';
+import {
+  selectModalFlg,
+  selectEditFlg,
+  setModalFlg,
+  setEditFlg,
+  selectEditCardId,
+  setEditCardId,
+} from '../features/modalSlice';
 import Modal from './Modal';
 import RegisterTrainingForm from './RegisterTrainingForm';
 
@@ -18,26 +25,24 @@ type TrainingProps = {
 };
 
 const TrainingCard: React.FC<TrainingProps> = ({ trainingName, imagePass, id }) => {
-  const [imgPass, setImgPass] = useState('');
   const showModalFlg = useSelector(selectModalFlg);
   const editFlg = useSelector(selectEditFlg);
+  // 編集中のカードid
+  const editCardId = useSelector(selectEditCardId);
   const dispatch = useDispatch();
 
-  useEffect(() => {
+  const selectImage = (imagePass: string) => {
     switch (imagePass) {
       case 'machine':
-        setImgPass(machine);
-        break;
+        return machine;
       case 'dumbbell':
-        setImgPass(dumbbell);
-        break;
+        return dumbbell;
       case 'bench':
-        setImgPass(bench);
-        break;
+        return bench;
       default:
-        break;
+        return '';
     }
-  }, []);
+  };
 
   const clickDeleteCard = async () => {
     const confirmFlg = confirm('登録していたレコードも削除されますが、よろしいですか？');
@@ -53,7 +58,7 @@ const TrainingCard: React.FC<TrainingProps> = ({ trainingName, imagePass, id }) 
           <h3 className="trainingCardTitle">{trainingName}</h3>
           <div className="trainingCardBody">
             <div className="trainingCardImgContainer">
-              <img className="trainingCardImg" src={imgPass} />
+              <img className="trainingCardImg" src={selectImage(imagePass)} />
             </div>
             <div className="trainingCardSettings">
               <button className="trainingCardDeleteBtn" onClick={() => clickDeleteCard()}>
@@ -66,6 +71,7 @@ const TrainingCard: React.FC<TrainingProps> = ({ trainingName, imagePass, id }) 
                 onClick={() => {
                   dispatch(setModalFlg(!showModalFlg));
                   dispatch(setEditFlg(true));
+                  dispatch(setEditCardId(id));
                 }}
               >
                 <IconContext.Provider value={{ size: '2rem' }}>
@@ -76,9 +82,14 @@ const TrainingCard: React.FC<TrainingProps> = ({ trainingName, imagePass, id }) 
           </div>
         </div>
       </div>
-      {showModalFlg && editFlg ? (
+      {showModalFlg && editFlg && editCardId === id ? (
         <Modal>
-          <RegisterTrainingForm editFlg={true} id={id} />
+          <RegisterTrainingForm
+            editFlg={true}
+            id={id}
+            currentTrainingName={trainingName}
+            currentImagePass={imagePass}
+          />
         </Modal>
       ) : (
         ''

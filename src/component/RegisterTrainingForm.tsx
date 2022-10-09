@@ -5,14 +5,21 @@ import useModalHook from './hook/useModalHook';
 import dumbbell from '../images/weight2.png';
 import machine from '../images/runningmachine.png';
 import bench from '../images/bench.png';
-import { addDoc, collection, onSnapshot, query, serverTimestamp, where } from 'firebase/firestore';
+import { addDoc, collection, doc, serverTimestamp, updateDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 
 type Props = {
   editFlg?: boolean;
   id?: string;
+  currentTrainingName?: string;
+  currentImagePass?: string;
 };
-const RegisterTrainingForm: React.FC<Props> = ({ editFlg = false, id }) => {
+const RegisterTrainingForm: React.FC<Props> = ({
+  editFlg = false,
+  id,
+  currentTrainingName,
+  currentImagePass,
+}) => {
   const { clickHideModal } = useModalHook();
   const [trainingName, setTrainingName] = useState('');
   const [selectImg, setSelectImg] = useState([false, false, false]);
@@ -91,24 +98,30 @@ const RegisterTrainingForm: React.FC<Props> = ({ editFlg = false, id }) => {
     }
   }, [selectImg]);
 
-  if (editFlg) {
-    const q = query(collection(db, 'trainingSection'), where('id', '==', id));
-    const unSub = onSnapshot(q, (querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-        const data = doc.data();
-        // trainingSectionData.push({
-        //   id: doc.id,
-        //   imagePass: data.imagePass,
-        //   trainingName: data.trainingName,
-        // });
-        setImagePass(data.imagePass);
-        setTrainingName(data.trainingName);
-      });
-    });
-  }
+  // 編集時の初期値設定
+  useEffect(() => {
+    if (editFlg) {
+      setImagePass(currentImagePass!);
+      setTrainingName(currentTrainingName!);
+      switch (currentImagePass) {
+        case 'bench':
+          setSelectImg([true, false, false]);
+          break;
+        case 'machine':
+          setSelectImg([false, true, false]);
+          break;
+        case 'dumbbell':
+          setSelectImg([false, false, true]);
+          break;
+        default:
+          break;
+      }
+    }
+  }, []);
 
   // 登録
   const registerTrainingSection = async () => {
+    setSubmitFlg(false);
     const colRef = collection(db, 'trainingSection');
     const data = {
       uid: user.uid,
@@ -120,7 +133,14 @@ const RegisterTrainingForm: React.FC<Props> = ({ editFlg = false, id }) => {
     await addDoc(colRef, data);
   };
   // 編集
-  const editTrainingSection = async () => {};
+  const editTrainingSection = async () => {
+    setSubmitFlg(false);
+    const trainingSectionRef = doc(db, 'trainingSection', id!);
+    await updateDoc(trainingSectionRef, {
+      trainingName,
+      imagePass,
+    });
+  };
 
   return (
     <>
@@ -178,7 +198,7 @@ const RegisterTrainingForm: React.FC<Props> = ({ editFlg = false, id }) => {
               }}
               disabled={!submitFlg}
             >
-              登録する
+              {editFlg ? '変更する' : '登録する'}
             </button>
           </div>
         </div>

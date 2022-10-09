@@ -73,7 +73,7 @@ const Main: React.FC = () => {
                 トレーニングを追加
               </button>
             </div>
-            {trainingSection?.map((training: TrainingSectionData, i: number) => {
+            {trainingSection?.map((training: TrainingSectionData) => {
               const elm = (
                 <TrainingCard
                   key={training.id}
