@@ -1,15 +1,15 @@
-import React from "react";
-import styles from "../cssModules/fluid.module.scss";
+import React from 'react';
+import styles from '../cssModules/fluid.module.scss';
 type PROP = {
   message: string;
-}
+};
 
-const ChartState = (props:PROP) => {
+const ChartState = (props: PROP) => {
   return (
     <>
-      <div className="relative flex items-center justify-center text-center h-full">
-        <div className={styles.fluid}></div>
-          {props.message}
+      <div className="chartFluidContainer">
+        <div className="chartFluid"></div>
+        <p className="chartFluidMessage">{props.message}</p>
       </div>
     </>
   );

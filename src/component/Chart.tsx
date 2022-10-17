@@ -15,16 +15,7 @@ import { Line } from 'react-chartjs-2';
 import ChartState from './ChartState';
 import TrainingTitle from './TrainingTitle';
 
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-);
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 type ChartData = {
   id: string;
@@ -34,7 +25,7 @@ type ChartData = {
   registerDate: string;
 };
 
-const Chart: React.FC<any> = memo(({trainingData, trainingTitle}) => {
+const Chart: React.FC<any> = memo(({ trainingData, trainingTitle }) => {
   console.log('chart render');
 
   // TODO:リファクタリング
@@ -56,9 +47,8 @@ const Chart: React.FC<any> = memo(({trainingData, trainingTitle}) => {
   const [currentPage, setCurrentPage] = useState(0);
 
   const toggleShow = useCallback(() => {
-
     setAnimateflg(!animateFlg);
-    
+
     if (!commentFlg) {
       setCommentflg(!commentFlg);
     } else {
@@ -69,13 +59,13 @@ const Chart: React.FC<any> = memo(({trainingData, trainingTitle}) => {
   }, []);
 
   useEffect(() => {
-    let data = trainingData.sort(function (a:any, b:any) {
-      return (a.registerDate < b.registerDate) ? -1 : 1;
+    let data = trainingData.sort(function (a: any, b: any) {
+      return a.registerDate < b.registerDate ? -1 : 1;
     });
-    const labelArr = data.map((elm:ChartData) => {
+    const labelArr = data.map((elm: ChartData) => {
       return elm.registerDate;
     });
-    const amount = data.map((elm:ChartData) => {
+    const amount = data.map((elm: ChartData) => {
       return Number(elm.weight) * Number(elm.sets) * Number(elm.frequency);
     });
     // レコードの制御に必要な数値をセット
@@ -88,26 +78,25 @@ const Chart: React.FC<any> = memo(({trainingData, trainingTitle}) => {
     setProcessedLabel(labelArr);
 
     const setData = () => {
-      if(trainingData.length > 10) {
-        const tempData = amount.slice(trainingData.length-10);
-        const tempLabel = labelArr.slice(trainingData.length-10);
-        const returnData = {data: tempData, label: tempLabel};
+      if (trainingData.length > 10) {
+        const tempData = amount.slice(trainingData.length - 10);
+        const tempLabel = labelArr.slice(trainingData.length - 10);
+        const returnData = { data: tempData, label: tempLabel };
         return returnData;
       } else {
         const tempData = amount;
         const tempLabel = labelArr;
-        const returnData = {data: tempData, label: tempLabel};
+        const returnData = { data: tempData, label: tempLabel };
         return returnData;
       }
     };
 
-    const tmp:any = setData();
-    console.log("tmp",tmp);
+    const tmp: any = setData();
+    console.log('tmp', tmp);
     setDisplayWidth(trainingData.length < 10 ? trainingData.length * 40 : 400);
     setVisibleData(tmp.data);
     setVisibleLabel(tmp.label);
-
-  },[trainingData])
+  }, [trainingData]);
 
   const prevPage = () => {
     const newPage = currentPage - 1;
@@ -115,31 +104,41 @@ const Chart: React.FC<any> = memo(({trainingData, trainingTitle}) => {
     if (newPage === 1) {
       setVisibleData(processedData.slice(0, 10));
       setVisibleLabel(processedLabel.slice(0, 10));
-    } else if(newPage > 1 && newPage < totalPage){
-      setVisibleData(processedData.slice(recordNum - ((totalPage - newPage + 1) * 10), recordNum - ((totalPage - newPage) * 10)));
-      setVisibleLabel(processedLabel.slice(recordNum - ((totalPage - newPage + 1) * 10), recordNum - ((totalPage - newPage) * 10)));
+    } else if (newPage > 1 && newPage < totalPage) {
+      setVisibleData(
+        processedData.slice(
+          recordNum - (totalPage - newPage + 1) * 10,
+          recordNum - (totalPage - newPage) * 10
+        )
+      );
+      setVisibleLabel(
+        processedLabel.slice(
+          recordNum - (totalPage - newPage + 1) * 10,
+          recordNum - (totalPage - newPage) * 10
+        )
+      );
     }
-  }
+  };
 
   const nextPage = () => {
     const newPage = currentPage + 1;
     setCurrentPage(newPage);
     if (newPage === totalPage) {
-      setVisibleData(processedData.slice(recordNum-10));
-      setVisibleLabel(processedLabel.slice(recordNum-10));
+      setVisibleData(processedData.slice(recordNum - 10));
+      setVisibleLabel(processedLabel.slice(recordNum - 10));
     } else {
       setVisibleData(processedData.slice((newPage - 1) * 10, newPage * 10));
       setVisibleLabel(processedLabel.slice((newPage - 1) * 10, newPage * 10));
     }
-  }
-  
+  };
+
   const graphData = {
     labels: visibleLabel,
     datasets: [
       {
         label: trainingTitle,
         data: visibleData,
-        borderColor: "rgb(75, 192, 192)",
+        borderColor: 'rgb(75, 192, 192)',
       },
     ],
   };
@@ -148,41 +147,59 @@ const Chart: React.FC<any> = memo(({trainingData, trainingTitle}) => {
     maintainAspectRatio: false,
     scales: {
       y: {
-        min: 0
-      }
-    }
+        min: 0,
+      },
+    },
   };
 
   const ShowChart = () => {
     return (
-          <>
-            <TrainingTitle trainingTitle={trainingTitle}/>
-            <div className="flex justify-center">
-              <div className="pb-4 relative" style={{ height: "400px", width: `${displayWidth < 200 ? 200 : displayWidth}px` }}>
-                <Line 
-                  data={graphData}
-                  options={options}
-                  id="chart-key"
-                />
-              </div>
-            </div>
-          </>
+      <>
+        <TrainingTitle trainingTitle={trainingTitle} />
+        <div className="">
+          <div
+            className="chartBody"
+            style={{ height: '400px', width: `${displayWidth < 200 ? 200 : displayWidth}px` }}
+          >
+            <Line data={graphData} options={options} id="chart-key" />
+          </div>
+        </div>
+      </>
     );
-  }
-
+  };
 
   return (
     <>
-         {trainingData.length ? <ShowChart /> : <ChartState message="データがありません" />}
-         
-          <div className="pb-10 flex justify-center">
-          {totalPage > 1 ?
-            <> 
-              {currentPage === 1 ? "" : <button className="px-3 py-1 border hover:bg-yellow-200 mx-4" onClick={() => prevPage()}>前の期間</button>}
-              {totalPage > currentPage ? <button className="px-3 py-1 border hover:bg-yellow-200 mx-4" onClick={() => nextPage()}>次の期間</button> : ""}
-            </>
-          : ""}
-          </div>
+      {trainingData.length ? <ShowChart /> : <ChartState message="データがありません" />}
+
+      <div className="pb-10 flex justify-center">
+        {totalPage > 1 ? (
+          <>
+            {currentPage === 1 ? (
+              ''
+            ) : (
+              <button
+                className="px-3 py-1 border hover:bg-yellow-200 mx-4"
+                onClick={() => prevPage()}
+              >
+                前の期間
+              </button>
+            )}
+            {totalPage > currentPage ? (
+              <button
+                className="px-3 py-1 border hover:bg-yellow-200 mx-4"
+                onClick={() => nextPage()}
+              >
+                次の期間
+              </button>
+            ) : (
+              ''
+            )}
+          </>
+        ) : (
+          ''
+        )}
+      </div>
     </>
   );
 });

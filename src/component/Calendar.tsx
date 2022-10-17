@@ -73,17 +73,17 @@ const Calendar: React.FC<PROPS> = ({ today, setDay }) => {
 
   return (
     <>
-      <section className="inline-block mb-4">
-        <div className="flex justify-between items-center mb-2 mt-2">
+      <section className="calendar">
+        <div className="calendarHeader">
           <AiFillCaretLeft
-            className="hover:cursor-pointer"
+            className="calendarArrow"
             onClick={() => {
               prevMonth();
             }}
           />
           <span>{currentDate.format('YYYY年MM月')}</span>
           <AiFillCaretRight
-            className="hover:cursor-pointer ml-4"
+            className="calendarArrow"
             onClick={() => {
               nextMonth();
             }}
@@ -93,20 +93,23 @@ const Calendar: React.FC<PROPS> = ({ today, setDay }) => {
           {calendar
             ? calendar.map((elm: [], index: number) => {
                 return (
-                  <div key={index} className="flex">
+                  <div
+                    key={index}
+                    className={`calendarRow ${
+                      index === getCalendar().length - 1 ? 'borderBottom' : ''
+                    }`}
+                  >
                     {elm.map((el: DATE, index) => {
                       return (
                         <div
-                          className={`w-10 text-center border-t border-l hover:bg-gray-200 ${
-                            index === 6 ? 'border-r' : ''
-                          }`}
+                          className={`calendarCell ${index === 6 ? 'borderRight' : ''}`}
                           key={el.date}
                         >
                           <p
-                            className={`hover:cursor-pointer ${
-                              el.month !== currentDate.month() ? 'text-gray-400 ' : ''
+                            className={`${
+                              el.month !== currentDate.month() ? 'calendarPrevMonth' : ''
                             }
-                       ${el.date === currentDay ? 'text-pink-500' : ''}`}
+                       ${el.date === currentDay ? 'calendarToday' : ''}`}
                             key={el.date}
                             onClick={() => getCalendarDate(el)}
                           >

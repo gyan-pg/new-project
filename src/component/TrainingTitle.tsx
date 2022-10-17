@@ -22,7 +22,7 @@ const TrainingTitle: React.FC<any> = ({ trainingTitle }) => {
   };
 
   return (
-    <div className="text-center">
+    <div className="trainingTitle">
       <div className="inline-block relative">
         <h2 className="text-center">
           {trainingTitle}:総負荷グラフ

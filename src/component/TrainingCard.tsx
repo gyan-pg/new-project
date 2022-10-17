@@ -17,6 +17,7 @@ import {
 } from '../features/modalSlice';
 import Modal from './Modal';
 import RegisterTrainingForm from './RegisterTrainingForm';
+import { Link } from 'react-router-dom';
 
 type TrainingProps = {
   id: string;
@@ -58,7 +59,9 @@ const TrainingCard: React.FC<TrainingProps> = ({ trainingName, imagePass, id }) 
           <h3 className="trainingCardTitle">{trainingName}</h3>
           <div className="trainingCardBody">
             <div className="trainingCardImgContainer">
-              <img className="trainingCardImg" src={selectImage(imagePass)} />
+              <Link to={`/detail/${trainingName}`}>
+                <img className="trainingCardImg" src={selectImage(imagePass)} />
+              </Link>
             </div>
             <div className="trainingCardSettings">
               <button className="trainingCardDeleteBtn" onClick={() => clickDeleteCard()}>

@@ -22,7 +22,6 @@ import {
   updateDoc,
   where,
 } from 'firebase/firestore';
-import { BENCHPRESS, LEGPRESS, PULLDOWN } from '../syumokuList';
 import Chart from './Chart';
 import ChartState from './ChartState';
 import Header from './Header';
@@ -64,19 +63,6 @@ const Detail: React.FC = () => {
   const params = useParams();
   // アドレスからトレーニングの名前を取得する。
   const trainingName = params.query;
-  let trainingTitle = '';
-
-  switch (trainingName) {
-    case BENCHPRESS.en:
-      trainingTitle = BENCHPRESS.ja;
-      break;
-    case LEGPRESS.en:
-      trainingTitle = LEGPRESS.ja;
-      break;
-    case PULLDOWN.en:
-      trainingTitle = PULLDOWN.ja;
-      break;
-  }
 
   // バリデーション
   const validNum = (num: string, type: keyof ERR) => {
@@ -216,27 +202,25 @@ const Detail: React.FC = () => {
   return (
     <>
       <Header />
-      <main className="relative" style={{ minHeight: 'calc(100vh - 124px)' }}>
+      <main className="detailMain">
         <FlashMessage />
-        <div className="pt-20">
-          <div className="text-center mb-4">
-            <h2 className="inline-block text-center font-bold font-lg relative">
-              {trainingTitle}
-              <Link to={'/main'}>
-                <button className={styles.nav}>前</button>
-              </Link>
-            </h2>
+        <div className="detailInputForm">
+          <div className="detailTitleContainer">
+            <h2 className="detailTitle">{trainingName}</h2>
+            <Link to={'/main'}>
+              <button className="detailBackBtn">前</button>
+            </Link>
           </div>
-          <div className="flex justify-center">
-            <section className="w-1/4 px-10">
+          <div className="detailRecordContainer">
+            <section className="detailForm">
               <section>
-                <label className="ml-2 inline-block" htmlFor="weight">
+                <label className="detailLabel" htmlFor="weight">
                   重量
                 </label>
-                <span className="text-red-400 text-xs ml-4">{errFlg ? err.weight : ''}</span>
+                <span className="textErrMid">{errFlg ? err.weight : ''}</span>
                 <input
                   id="weight"
-                  className="px-2 py-1 border block w-full mb-4"
+                  className="detailFormInput"
                   placeholder="ウェイト重量(kg)"
                   type="text"
                   inputMode="numeric"
@@ -246,13 +230,13 @@ const Detail: React.FC = () => {
                   }}
                 />
 
-                <label className="ml-2 inline-block" htmlFor="frequency">
+                <label className="detailLabel" htmlFor="frequency">
                   回数
                 </label>
-                <span className="text-red-400 text-xs ml-4">{errFlg ? err.frequency : ''}</span>
+                <span className="textErrMid">{errFlg ? err.frequency : ''}</span>
                 <input
                   id="frequency"
-                  className="px-2 py-1 border block w-full mb-4"
+                  className="detailFormInput"
                   placeholder="回数"
                   type="text"
                   inputMode="numeric"
@@ -262,13 +246,13 @@ const Detail: React.FC = () => {
                   }}
                 />
 
-                <label className="ml-2 inline-block" htmlFor="sets">
+                <label className="detailLabel" htmlFor="sets">
                   セット数
                 </label>
-                <span className="text-red-400 text-xs ml-4">{errFlg ? err.sets : ''}</span>
+                <span className="textErrMid">{errFlg ? err.sets : ''}</span>
                 <input
                   id="sets"
-                  className="px-2 py-1 border block w-full mb-4"
+                  className="detailFormInput"
                   placeholder="セット数"
                   type="text"
                   inputMode="numeric"
@@ -279,49 +263,40 @@ const Detail: React.FC = () => {
                 />
 
                 <label
-                  className="ml-2"
+                  className="detailLabel"
                   onClick={() => {
                     setShowCalendarFlg(!showCalendarFlg);
                   }}
                 >
                   実施日
                 </label>
-                <div
-                  className="flex border content-between items-center mb-4"
-                  onClick={() => {
-                    setShowCalendarFlg(!showCalendarFlg);
-                  }}
-                >
-                  <span className="px-2 py-1 w-full inline-block">{calendarDate}</span>
-                  <BsCalendar3 className="inline-block mr-2 hover:text-gray-500 hover:cursor-pointer transition transition-duration-500" />
-                </div>
+                <span className="detailWorkDate">{calendarDate}</span>
               </section>
               <section className="text-center">
-                {showCalendarFlg ? <Calendar today={calendarDate} setDay={setCalendarDate} /> : ''}
+                <Calendar today={calendarDate} setDay={setCalendarDate} />
               </section>
-              <div className="flex justify-between mx-auto pb-10">
-                <button
-                  className={`w-2/5 border inline-block bg-blue-200 py-1 ${
-                    !submitFlg ? 'bg-gray-200' : ''
-                  }`}
-                  disabled={!submitFlg}
-                  onClick={() => registerResult()}
-                >
-                  登録
-                </button>
-                <button
-                  className="w-2/5 border inline-block bg-blue-200 py-1 text-sm"
-                  onClick={() => deleteRecord()}
-                >
-                  レコード削除
-                </button>
+              <div className="detailButtonContainer">
+                <div className="detailButtonWrap">
+                  <button
+                    className={`detailButton ${!submitFlg ? 'disable' : ''}`}
+                    disabled={!submitFlg}
+                    onClick={() => registerResult()}
+                  >
+                    登録
+                  </button>
+                </div>
+                <div className="detailButtonWrap">
+                  <button className="detailButton" onClick={() => deleteRecord()}>
+                    レコード削除
+                  </button>
+                </div>
               </div>
             </section>
-            <section className="w-1/4">
+            <section className="detailRecord">
               {loadingFlg ? (
                 <ChartState message="loading..." />
               ) : (
-                <Chart trainingData={trainingData} trainingTitle={trainingTitle} />
+                <Chart trainingData={trainingData} trainingTitle={trainingName} />
               )}
             </section>
           </div>

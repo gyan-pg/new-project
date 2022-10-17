@@ -1,6 +1,10 @@
 @import '_.reset.scss';
 @import './base.scss';
+@import './calendar.scss';
 @import './card.scss';
+@import './chart.scss';
+@import './chartstate.scss';
+@import './detail.scss';
 @import './top.scss';
 @import './auth.scss';
 @import './header.scss';
@@ -8,4 +12,5 @@
 @import './main.scss';
 @import './modal.scss';
 @import './registerform.scss';
+@import './trainingTitle.scss';
 @import './util.scss';
