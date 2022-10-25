@@ -1,0 +1,157 @@
+.detail {
+  &Main {
+    position: relative;
+    min-height: calc(100vh - 124px);
+  }
+  &InputForm {
+    padding-top: 50px;
+  }
+  &Title {
+    text-align: center;
+    font-size: 3rem;
+    &Container {
+      text-align: center;
+    }
+  }
+  &BackBtn {
+    padding-left: $space_m;
+    margin-bottom: $space_s;
+    position: relative;
+    &:before {
+      content: '';
+      width: 10px;
+      height: 10px;
+      display: block;
+      position: absolute;
+      top: 8px;
+      left: 5px;
+      border-bottom: 3px solid #999;
+      border-left: 3px solid #999;
+      opacity: 0;
+    }
+    &:hover::before {
+      animation: backToPrev infinite 1s;
+    }
+  }
+  &RecordContainer {
+    display: flex;
+    justify-content: center;
+    padding-bottom: $space_3l;
+  }
+  &Record {
+    width: 400px;
+    position: relative;
+  }
+  &Form {
+    width: 400px;
+    padding: $space_m;
+    border: $border_default;
+    border-radius: $space_s;
+    background: #fff;
+    &Input {
+      display: block;
+      width: 100%;
+      padding-left: $space_xs;
+      border-bottom: $border_default;
+      margin-bottom: $space_m;
+    }
+  }
+  &Label {
+    display: inline-block;
+    margin-bottom: $space_s;
+    background: $color_light_green;
+    color: white;
+    padding: $space_xs;
+    padding-left: $space_l;
+    border-radius: $space_s;
+    position: relative;
+    &:before {
+      content: '';
+      display: block;
+      width: 2rem;
+      height: 2rem;
+      background: #fff;
+      border-radius: 50%;
+      position: absolute;
+      top: 50%;
+      left: 5px;
+      transform: translateY(-50%);
+    }
+  }
+  &WorkDate {
+    margin-left: $space_l;
+  }
+  &ButtonContainer {
+    width: 300px;
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    margin-top: $space_m;
+    position: relative;
+  }
+  &ButtonWrap {
+    width: 50%;
+    text-align: center;
+  }
+  &Button {
+    display: inline-block;
+    border: $border_default;
+    text-align: center;
+    width: 80%;
+    padding: $space_xs;
+    font-size: 1.4rem;
+    border-radius: 5px;
+    background: transparent;
+    position: relative;
+    z-index: 2;
+    overflow: hidden;
+    transition: $transtime_default;
+    &:before {
+      position: absolute;
+      z-index: -1;
+      content: '';
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: $color_green;
+      transition: $transtime_default;
+      left: 0;
+      top: 0;
+      transform: translate(-100%, -50%);
+    }
+    &:hover {
+      transition: $transtime_default;
+      color: white;
+      border-color: $color_green;
+      &:before {
+        transition: $transtime_default;
+        transform: scale(3);
+      }
+    }
+    &.disable {
+      background: #aaa;
+      color: white;
+      &:hover {
+        border: $border_default;
+        &:before {
+          transform: scale(0);
+        }
+      }
+    }
+  }
+}
+
+@keyframes backToPrev {
+  0% {
+    transform: translateX(5px) rotate(45deg);
+    opacity: 0;
+  }
+  50% {
+    transform: translateX(0px) rotate(45deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-5px) rotate(45deg);
+    opacity: 0;
+  }
+}

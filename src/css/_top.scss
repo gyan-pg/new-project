@@ -1,0 +1,381 @@
+$border-color: rgb(230, 152, 74);
+$bg-color1: rgb(80, 207, 80);
+
+* {
+  letter-spacing: 0.1em;
+  font-size: 1.6rem;
+  font-family: $jpfont;
+}
+img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  vertical-align: top;
+}
+.headMessage {
+  font-family: 'Zen Maru Gothic', sans-serif;
+  letter-spacing: 0.1rem;
+  font-size: 6rem;
+  font-weight: 700;
+  &Sub {
+    text-align: center;
+  }
+}
+.seekMessage {
+  font-size: 10px;
+  opacity: 0.3;
+}
+.eyeCatchContainer {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
+    'Courier New', monospace;
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.catchCopy {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 60px;
+}
+
+$benefitHeight: 7vh;
+.benefit {
+  position: relative;
+  opacity: 0;
+  transition: 0.3s;
+  font-size: 20px;
+  margin-bottom: 20px;
+  padding-right: 10px;
+  text-align: left;
+}
+.benefitContainer {
+  text-align: center;
+}
+.benefit.active {
+  opacity: 1;
+  transition: all 0.3s;
+}
+.benefitInner {
+  display: inline-block;
+  line-height: $benefitHeight;
+  background: rgba(255, 255, 255, 0.7);
+  padding: 5px 20px;
+}
+
+.offset1 {
+  left: -15%;
+  &.active {
+    left: 5%;
+  }
+}
+.offset2 {
+  left: -5%;
+  &.active {
+    left: 20%;
+  }
+}
+.offset3 {
+  left: 15%;
+  &.active {
+    left: 35%;
+  }
+}
+.offset4 {
+  left: 25%;
+  &.active {
+    left: 50%;
+  }
+}
+.offset5 {
+  left: 35%;
+  margin-bottom: 40px;
+  &.active {
+    left: 65%;
+  }
+}
+.benefitNo {
+  display: inline-block;
+  margin-right: 10px;
+  width: $benefitHeight;
+  height: $benefitHeight;
+  line-height: $benefitHeight;
+  border-radius: 50%;
+  text-align: center;
+  vertical-align: middle;
+  background: radial-gradient($bg-color1, white);
+  color: white;
+}
+.benefitImg {
+  position: absolute;
+  width: 20vw;
+  opacity: 0;
+  transition: all 0.5s;
+  box-shadow: 0 0 15px 5px #ccc;
+  &.active {
+    opacity: 1;
+  }
+}
+.position1 {
+  left: 10vw;
+  top: 20vh;
+}
+.position2 {
+  left: 15vw;
+  top: 40vh;
+}
+.position3 {
+  left: 5vw;
+  top: 60vh;
+}
+.position4 {
+  right: 10vw;
+  top: 25vh;
+}
+.position5 {
+  right: 5vw;
+  top: 50vh;
+}
+.introduce {
+  position: absolute;
+  text-align: center;
+  font-size: 26px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50vw;
+  opacity: 0;
+  transition: 0.5s;
+  &.active {
+    opacity: 1;
+    transition: 0.5s;
+  }
+}
+.doubleColumn {
+  &Container {
+    display: flex;
+    width: 100vw;
+    text-align: center;
+    background: #fefaf5;
+  }
+  &RightContent {
+    text-align: left;
+    position: absolute;
+    top: 50%;
+    left: 60%;
+    transform: translate(-50%, -50%);
+    width: 50vw;
+    transition: all 0.5s;
+    opacity: 0;
+    &.active {
+      left: 50%;
+      opacity: 1;
+    }
+  }
+  &Left {
+    position: relative;
+    width: 30vw;
+    height: 100vh;
+    background: yellow;
+    clip-path: polygon(0% 0%, 80% 0%, 100% 50%, 80% 100%, 0% 100%);
+    left: -10vw;
+    opacity: 0;
+    transition: all 0.5s;
+    &.active {
+      opacity: 1;
+      left: 0;
+    }
+  }
+  &Right {
+    position: relative;
+    width: 70vw;
+    height: 100vh;
+  }
+  &Center {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 3.2rem;
+  }
+}
+.linearAnimation {
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+  height: 100%;
+  width: 100vw;
+  position: fixed;
+}
+.linearAnimation::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  border-bottom: 10vw solid #fff;
+  border-left: 100vw solid transparent;
+}
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+.midBack {
+  width: 100vw;
+  height: 100%;
+  background: #fefaf5;
+  position: relative;
+  z-index: -1;
+  border-top: 10vw solid #fff;
+  border-right: 100vw solid transparent;
+  &::after {
+    content: '';
+    bottom: -1vh;
+    width: 100vw;
+    border-bottom: 10vw solid #fff;
+    border-left: 100vw solid transparent;
+    position: absolute;
+    z-index: 1;
+  }
+}
+
+.sectionAlpha {
+  font-size: 4.5rem;
+  font-family: $engfont;
+  justify-content: space-between;
+  position: absolute;
+  left: 10vw;
+  top: 5vh;
+  z-index: 1;
+}
+.sectionMessage {
+  font-size: 3rem;
+  text-align: center;
+  &.about {
+    margin-bottom: 5rem;
+    opacity: 0;
+    transition: all 0.5s;
+    &.active {
+      opacity: 1;
+    }
+  }
+}
+.sectionMessageBody {
+  &.about {
+    opacity: 0;
+    transition: all 0.5s;
+    &.active {
+      opacity: 1;
+    }
+  }
+}
+.aboutMessageContainer {
+  position: absolute;
+  left: 65%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.sectionAlphaImgContainer {
+  width: 20vw;
+  position: absolute;
+  top: 25vh;
+  left: 10vw;
+  opacity: 0;
+  transform: scale(1.1);
+  transition: all 0.5s;
+  box-shadow: 0 0 15px 5px #ccc;
+  &.active {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+.benefitMessageContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.usageCardContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+}
+.usageMessage {
+  position: absolute;
+  text-align: center;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2.5rem;
+}
+.usageCard {
+  width: 20vw;
+  margin: 0 5vh;
+  position: relative;
+  bottom: -5vh;
+  opacity: 0;
+  transition: all 0.5s;
+  &.active {
+    bottom: 0;
+    opacity: 1;
+  }
+  &ImgContainer {
+    height: 30vh;
+  }
+  &Img {
+    height: 100%;
+    width: 100%;
+  }
+  &Title {
+    padding: 10px;
+    text-align: center;
+  }
+  &Conclusion {
+    position: absolute;
+    top: 90%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: all 0.5s;
+    &.active {
+      top: 80%;
+      opacity: 1;
+    }
+  }
+}
+.usageSection {
+  opacity: 0;
+  transition: all 0.5s;
+  &.active {
+    opacity: 1;
+  }
+}
+.topHeader {
+  position: fixed;
+  right: 0;
+  margin-right: 10vw;
+  z-index: 10;
+}
+.navItem {
+  list-style-type: none;
+  color: #888;
+  transition: all $transtime_default;
+  &:hover {
+    color: #333;
+  }
+}
+.nav {
+  margin-top: 3vh;
+}

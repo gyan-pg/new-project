@@ -207,13 +207,13 @@ const Detail: React.FC = () => {
         <div className="detailInputForm">
           <div className="detailTitleContainer">
             <h2 className="detailTitle">{trainingName}</h2>
-            <Link to={'/main'}>
-              <button className="detailBackBtn">前</button>
-            </Link>
           </div>
           <div className="detailRecordContainer">
-            <section className="detailForm">
-              <section>
+            <section>
+              <Link to={'/main'}>
+                <button className="detailBackBtn">Back</button>
+              </Link>
+              <section className="detailForm">
                 <label className="detailLabel" htmlFor="weight">
                   重量
                 </label>
@@ -271,26 +271,26 @@ const Detail: React.FC = () => {
                   実施日
                 </label>
                 <span className="detailWorkDate">{calendarDate}</span>
-              </section>
-              <section className="text-center">
-                <Calendar today={calendarDate} setDay={setCalendarDate} />
-              </section>
-              <div className="detailButtonContainer">
-                <div className="detailButtonWrap">
-                  <button
-                    className={`detailButton ${!submitFlg ? 'disable' : ''}`}
-                    disabled={!submitFlg}
-                    onClick={() => registerResult()}
-                  >
-                    登録
-                  </button>
+                <section className="text-center">
+                  <Calendar today={calendarDate} setDay={setCalendarDate} />
+                </section>
+                <div className="detailButtonContainer">
+                  <div className="detailButtonWrap">
+                    <button
+                      className={`detailButton ${!submitFlg ? 'disable' : ''}`}
+                      disabled={!submitFlg}
+                      onClick={() => registerResult()}
+                    >
+                      登録
+                    </button>
+                  </div>
+                  <div className="detailButtonWrap">
+                    <button className="detailButton" onClick={() => deleteRecord()}>
+                      レコード削除
+                    </button>
+                  </div>
                 </div>
-                <div className="detailButtonWrap">
-                  <button className="detailButton" onClick={() => deleteRecord()}>
-                    レコード削除
-                  </button>
-                </div>
-              </div>
+              </section>
             </section>
             <section className="detailRecord">
               {loadingFlg ? (

@@ -1,0 +1,44 @@
+.calendar {
+  width: 300px;
+  margin: 0 auto;
+  &Header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: $color_blue;
+    padding: $space_xs 0;
+    border: $border_default;
+    border-bottom: none;
+  }
+  &Arrow {
+    margin: 0 $space_s;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  &Row {
+    display: flex;
+    &.borderBottom {
+      border-bottom: $border_default;
+    }
+  }
+  &Cell {
+    width: calc(100% / 7);
+    border-left: $border_default;
+    border-top: $border_default;
+    &.borderRight {
+      border-right: $border_default;
+    }
+    text-align: center;
+    &:hover {
+      cursor: pointer;
+      background: #def8bd;
+    }
+  }
+  &PrevMonth {
+    color: #ccc;
+  }
+  &Today {
+    color: $color_blue;
+  }
+}

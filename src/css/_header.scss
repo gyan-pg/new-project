@@ -1,0 +1,27 @@
+.header {
+  line-height: $height_header;
+  border-bottom: 1px solid #aaa;
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+}
+.headerLogo {
+  margin-left: 5vw;
+  font-family: $engfont;
+  font-size: 3rem;
+  font-weight: bold;
+  &:hover {
+    opacity: 0.5;
+  }
+}
+.headerLogout {
+  display: flex;
+  align-items: center;
+  margin-right: 5vw;
+  &:hover {
+    opacity: 0.5;
+  }
+}
+.headerLogoutIcon {
+  margin-left: 10px;
+}

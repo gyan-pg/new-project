@@ -1,0 +1,89 @@
+.trainingCard {
+  width: 100%;
+  border: $border_default;
+  padding-top: $space_s;
+  border-radius: 5px;
+  &Body {
+    overflow: hidden;
+  }
+  &Container {
+    padding: $space_m;
+  }
+  &Title {
+    text-align: center;
+    padding-bottom: $space_s;
+    border-bottom: $border_default;
+  }
+  &DeleteBtn {
+    display: inline-block;
+    padding: $space_xs;
+    transition: all $transtime_default;
+    position: relative;
+    &:before {
+      content: '';
+      display: block;
+      width: 100px;
+      height: 100px;
+      position: absolute;
+      z-index: -1;
+      border-radius: 50%;
+      background: orange;
+      bottom: -100px;
+      left: -100px;
+      transition: $transtime_default;
+    }
+    &:hover {
+      color: #fff;
+      &:before {
+        transform: scale(2.5);
+      }
+    }
+  }
+  &SettingBtn {
+    @extend .trainingCardDeleteBtn;
+    &:before {
+      content: '';
+      display: block;
+      width: 100px;
+      height: 100px;
+      position: absolute;
+      z-index: -1;
+      border-radius: 50%;
+      background: rgb(24, 108, 244);
+      bottom: -100px;
+      left: 30px;
+      transition: $transtime_default;
+    }
+    &:hover {
+      &:before {
+        transform: scale(3);
+      }
+    }
+  }
+  &ImgContainer {
+    position: relative;
+    &:hover {
+      cursor: pointer;
+      &:before {
+        transform: scale(5);
+      }
+    }
+    &:before {
+      transition: all $transtime_default;
+      content: '';
+      width: 100px;
+      height: 100px;
+      background: rgb(112, 255, 94);
+      position: absolute;
+      z-index: -1;
+      border-radius: 50%;
+      display: block;
+      right: -100px;
+      top: -100px;
+    }
+  }
+  &Settings {
+    display: flex;
+    justify-content: space-between;
+  }
+}
